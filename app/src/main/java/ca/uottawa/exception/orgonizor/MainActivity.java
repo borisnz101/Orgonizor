@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TabHost;
 
 public class MainActivity extends AppCompatActivity {
     Dialog myDialog;
@@ -39,6 +40,26 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        TabHost tabs = (TabHost)findViewById(R.id.tabhost);
+        tabs.setup();
+
+        // Calculator
+        TabHost.TabSpec calculatorTab = tabs.newTabSpec("calculator");
+        calculatorTab.setContent(R.id.tab3);
+        calculatorTab.setIndicator("Calculator");
+        tabs.addTab(calculatorTab);
+
+        // Home
+        TabHost.TabSpec homeTab = tabs.newTabSpec("home");
+        homeTab.setContent(R.id.tab2);
+        homeTab.setIndicator("Home");
+        tabs.addTab(homeTab);
+
+        TabHost.TabSpec store = tabs.newTabSpec("store");
+        store.setContent(R.id.tab1);
+        store.setIndicator("Storage");
+        tabs.addTab(store);
 
         //mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         if(!loggedIn) {
