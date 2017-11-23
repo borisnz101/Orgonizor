@@ -30,50 +30,449 @@
 
                 <FrameLayout
                     android:id="@android:id/tabcontent"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
                     <LinearLayout
-                        android:id="@+id/tab3"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:visibility="invisible">
+                         android:id="@+id/tab3"
+                         android:layout_width="match_parent"
+                         android:layout_height="match_parent"
+                         android:orientation="vertical"
+                         android:visibility="invisible">
 
-                        <TextView
-                            android:id="@+id/textView3"
-                            android:layout_width="match_parent"
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Salut" />
-                    </LinearLayout>
+                            android:orientation="vertical">
 
+                            <TextView
+                                android:id="@+id/textView11"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Materials : "
+                                android:textSize="30sp" />
+
+                            <ImageButton
+                                android:id="@+id/button12"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:background="@drawable/ic_add_shop" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <GridLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:columnCount="3">
+
+                                <CheckBox
+                                    android:id="@+id/checkBox"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Broom" />
+
+                                <CheckBox
+                                    android:id="@+id/checkBox2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Batteries" />
+
+                                <CheckBox
+                                    android:id="@+id/checkBox3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Vacuum filter" />
+
+                                <CheckBox
+                                    android:id="@+id/checkBox4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Detergent" />
+
+                                <CheckBox
+                                    android:id="@+id/checkBox5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Item 5" />
+
+                                <CheckBox
+                                    android:id="@+id/checkBox6"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Item 6" />
+
+                                <CheckBox
+                                    android:id="@+id/checkBox7"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Item 7" />
+
+                                <CheckBox
+                                    android:id="@+id/checkBox8"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Item 8" />
+                            </GridLayout>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:orientation="vertical"
+                             android:layout_marginTop="100dp">
+
+                             <TextView
+                                 android:id="@+id/textView3"
+                                 android:layout_width="match_parent"
+                                 android:layout_height="wrap_content"
+                                 android:text="Groceries : "
+                                 android:textSize="30sp"/>
+
+                            <ImageButton
+                                android:id="@+id/button3"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:background="@drawable/ic_add_shop" />
+
+                         </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <GridLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:columnCount="3">
+
+                                <CheckBox
+                                    android:id="@+id/checkBox21"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Milk" />
+
+                                <CheckBox
+                                    android:id="@+id/checkBox22"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Eggs" />
+
+                                <CheckBox
+                                    android:id="@+id/checkBox23"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Tomatoes" />
+
+                                <CheckBox
+                                    android:id="@+id/checkBox24"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Bread" />
+
+                                <CheckBox
+                                    android:id="@+id/checkBox25"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Meat" />
+
+                                <CheckBox
+                                    android:id="@+id/checkBox26"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Fish" />
+
+                                <CheckBox
+                                    android:id="@+id/checkBox27"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Item 7" />
+
+                                <CheckBox
+                                    android:id="@+id/checkBox28"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Item 8" />
+                            </GridLayout>
+                        </RelativeLayout>
+
+                    </LinearLayout>
                     <LinearLayout
-                        android:id="@+id/tab2"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:visibility="invisible">
+                         android:id="@+id/tab2"
+                         android:layout_width="match_parent"
+                         android:layout_height="match_parent"
+                         android:orientation="vertical"
+                         android:visibility="invisible">
 
-                        <TextView
-                            android:id="@+id/textView4"
+                        <RelativeLayout
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:orientation="horizontal"
+                             android:layout_marginBottom="20dp">
+
+                             <ImageButton
+                                 android:id="@+id/button8"
+                                 android:layout_width="30dp"
+                                 android:layout_height="30dp"
+                                 android:background="@drawable/ic_add"
+                                 android:layout_gravity="center"/>
+
+                             <TextView
+                                 android:id="@+id/textView8"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:layout_centerVertical="true"
+                                 android:layout_toEndOf="@+id/button8"
+                                 android:layout_toRightOf="@+id/button8"
+                                 android:text="New task"
+                                 android:textSize="20sp" />
+
+                             <Switch
+                                 android:id="@+id/switch1"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:layout_alignBaseline="@+id/button8"
+                                 android:layout_alignBottom="@+id/button8"
+                                 android:layout_alignParentEnd="true"
+                                 android:layout_alignParentRight="true"
+                                 android:text="Only show my tasks" />
+
+                         </RelativeLayout>
+
+                        <RelativeLayout
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:orientation="horizontal">
+
+                         <ImageView
+                             android:id="@+id/imageView2"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             app:srcCompat="@drawable/ic_account" />
+
+                         <TextView
+                             android:id="@+id/Task"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:text="Task 1"
+                             android:textSize="35sp"
+                             android:layout_centerInParent="true"/>
+
+                         <CheckBox
+                             android:id="@+id/checkBox37"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_weight="1"
+                             android:layout_alignParentEnd="true"
+                             android:layout_alignParentRight="true"
+                             android:layout_centerInParent="true"/>
+                     </RelativeLayout>
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Hola" />
-                    </LinearLayout>
+                            android:orientation="horizontal">
 
+                            <ImageView
+                                android:id="@+id/imageView3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/ic_account" />
+
+                            <TextView
+                                android:id="@+id/Task2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Task 2"
+                                android:textSize="35sp"
+                                android:layout_centerInParent="true"/>
+
+                            <CheckBox
+                                android:id="@+id/checkBox36"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerInParent="true"/>
+                        </RelativeLayout>
+
+                    </LinearLayout>
                     <LinearLayout
-                        android:id="@+id/tab1"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:visibility="invisible">
+                         android:id="@+id/tab1"
+                         android:layout_width="match_parent"
+                         android:layout_height="match_parent"
+                         android:orientation="vertical"
+                         android:visibility="invisible">
 
-                        <TextView
-                            android:id="@+id/textView2"
-                            android:layout_width="match_parent"
+                         <RelativeLayout
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:orientation="vertical">
+
+                             <TextView
+                                 android:id="@+id/textView"
+                                 android:layout_width="match_parent"
+                                 android:layout_height="wrap_content"
+                                 android:text="Fridge : "
+                                 android:textSize="30sp"/>
+
+                             <ImageButton
+                                 android:id="@+id/button"
+                                 android:layout_width="30dp"
+                                 android:layout_height="30dp"
+                                 android:layout_alignParentEnd="true"
+                                 android:layout_alignParentRight="true"
+                                 android:layout_centerVertical="true"
+                                 android:layout_gravity="start"
+                                 android:background="@drawable/ic_add" />
+
+                         </RelativeLayout>
+
+                         <GridLayout
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:columnCount="3">
+
+                             <CheckBox
+                                 android:id="@+id/checkBox9"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:text="Milk" />
+                             <CheckBox
+                                 android:id="@+id/checkBox10"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:text="Egg" />
+                             <CheckBox
+                                 android:id="@+id/checkBox11"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:text="Meat" />
+                             <CheckBox
+                                 android:id="@+id/checkBox12"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:text="Bread" />
+
+                         </GridLayout>
+
+                         <RelativeLayout
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:orientation="vertical"
+                             android:layout_marginTop="50dp">
+
+                             <TextView
+                                 android:id="@+id/textView5"
+                                 android:layout_width="match_parent"
+                                 android:layout_height="wrap_content"
+                                 android:text="Cupboard : "
+                                 android:textSize="30sp"/>
+
+                             <ImageButton
+                                 android:id="@+id/button4"
+                                 android:layout_width="30dp"
+                                 android:layout_height="30dp"
+                                 android:layout_alignParentEnd="true"
+                                 android:layout_alignParentRight="true"
+                                 android:layout_centerVertical="true"
+                                 android:layout_gravity="start"
+                                 android:background="@drawable/ic_add" />
+
+                         </RelativeLayout>
+
+                         <GridLayout
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:columnCount="3">
+
+                             <CheckBox
+                                 android:id="@+id/checkBox13"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:text="Rice" />
+                             <CheckBox
+                                 android:id="@+id/checkBox14"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:text="Salt and Pepper" />
+                             <CheckBox
+                                 android:id="@+id/checkBox15"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:text="Flour" />
+                             <CheckBox
+                                 android:id="@+id/checkBox16"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:text="Pasta" />
+
+                         </GridLayout>
+
+                         <RelativeLayout
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Hello" />
-                    </LinearLayout>
+                            android:orientation="vertical"
+                            android:layout_marginTop="50dp">
+
+                            <TextView
+                                android:id="@+id/textView9"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Broom closet : "
+                                android:textSize="30sp"/>
+
+                             <Button
+                                 android:id="@+id/button9"
+                                 android:layout_width="30dp"
+                                 android:layout_height="30dp"
+                                 android:layout_alignParentEnd="true"
+                                 android:layout_alignParentRight="true"
+                                 android:layout_centerVertical="true"
+                                 android:layout_gravity="start"
+                                 android:background="@drawable/ic_add" />
+
+                        </RelativeLayout>
+
+                         <GridLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:columnCount="3">
+
+                            <CheckBox
+                                android:id="@+id/checkBox17"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Cleaner" />
+                            <CheckBox
+                                android:id="@+id/checkBox18"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Broom" />
+                            <CheckBox
+                                android:id="@+id/checkBox19"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Toilet paper" />
+                            <CheckBox
+                                android:id="@+id/checkBox20"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Item 4" />
+
+                        </GridLayout>
+
+                     </LinearLayout>
 
                 </FrameLayout>
 

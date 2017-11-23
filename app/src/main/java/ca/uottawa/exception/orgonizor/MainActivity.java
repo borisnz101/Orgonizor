@@ -44,19 +44,20 @@ public class MainActivity extends AppCompatActivity {
         TabHost tabs = (TabHost)findViewById(R.id.tabhost);
         tabs.setup();
 
-        // Calculator
-        TabHost.TabSpec calculatorTab = tabs.newTabSpec("calculator");
+        // Shopping
+        TabHost.TabSpec calculatorTab = tabs.newTabSpec("Shopping");
         calculatorTab.setContent(R.id.tab3);
-        calculatorTab.setIndicator("Calculator");
+        calculatorTab.setIndicator("Shopping");
         tabs.addTab(calculatorTab);
 
-        // Home
-        TabHost.TabSpec homeTab = tabs.newTabSpec("home");
+        // Tasks
+        TabHost.TabSpec homeTab = tabs.newTabSpec("Tasks");
         homeTab.setContent(R.id.tab2);
-        homeTab.setIndicator("Home");
+        homeTab.setIndicator("Tasks");
         tabs.addTab(homeTab);
 
-        TabHost.TabSpec store = tabs.newTabSpec("store");
+        // Storage
+        TabHost.TabSpec store = tabs.newTabSpec("Storage");
         store.setContent(R.id.tab1);
         store.setIndicator("Storage");
         tabs.addTab(store);
