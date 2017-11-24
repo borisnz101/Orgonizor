@@ -27,14 +27,14 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "orgonizor";
     // Contacts table name
     private static final String TABLE_USER = "users";
+    private static final String TABLE_TASK = "tasks";
     // Shops Table Columns names
     private static final String KEY_ID = "id";
-    private static final String KEY_NAME = "name";
-    private static final String KEY_SH_ADDR = "shop_address";
 
     public DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_USER + "("
@@ -47,6 +47,18 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
         // Creating tables again
         onCreate(db);
+    }
+
+    public void addTask(Task task){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //values.put("username", user); // Shop Name
+        //values.put("name", name);
+        //values.put("accessLevel", accessLevel);
+        // Inserting Row
+        db.insert(TABLE_USER, null, values);
+        db.close(); // Closing database connection
+
     }
 
     public void addUser(String user, String password, String name, int accessLevel) {

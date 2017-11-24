@@ -1,13 +1,14 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.26.0-33ee578-3609 modeling language!*/
+package ca.uottawa.exception.orgonizor;
 
+import android.media.Image;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 // line 30 "model.ump"
 // line 76 "model.ump"
-public class User
-{
+public class User {
 
   //------------------------
   // MEMBER VARIABLES

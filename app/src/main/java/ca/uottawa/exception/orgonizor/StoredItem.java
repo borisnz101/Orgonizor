@@ -1,13 +1,11 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.26.0-33ee578-3609 modeling language!*/
+package ca.uottawa.exception.orgonizor;
 
 
 import java.util.*;
 
 // line 61 "model.ump"
 // line 86 "model.ump"
-public class StoredItems
-{
+public class StoredItem {
 
   //------------------------
   // MEMBER VARIABLES
@@ -26,7 +24,7 @@ public class StoredItems
   // CONSTRUCTOR
   //------------------------
 
-  public StoredItems(String aName, String aDescription, int aId, StorageUnit aStorageUnit)
+  public StoredItem(String aName, String aDescription, int aId, StorageUnit aStorageUnit)
   {
     name = aName;
     description = aDescription;

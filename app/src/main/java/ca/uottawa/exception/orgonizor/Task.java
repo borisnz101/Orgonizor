@@ -1,13 +1,10 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.26.0-33ee578-3609 modeling language!*/
-
+package ca.uottawa.exception.orgonizor;
 
 import java.util.*;
 
 // line 2 "model.ump"
 // line 71 "model.ump"
-public class Task
-{
+public class Task {
 
   //------------------------
   // MEMBER VARIABLES
@@ -18,23 +15,23 @@ public class Task
   private User creator;
   private String due;
   private String duration;
-  private enum priority;
+  private String priority;
   private StorageUnit tools;
-  private enum status;
+  private String status;
   private String title;
   private String description;
   private int id;
   private String reward;
 
   //Task Associations
-  private List<StoredItems> storedItems;
+  private List<StoredItem> storedItems;
   private User user;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
-  public Task(User aAssignedTo, User aCreator, String aDue, String aDuration, enum aPriority, StorageUnit aTools, enum aStatus, String aTitle, String aDescription, int aId, String aReward)
+    //TODO // FIXME: 11/24/2017 CREATE PRIORITY AND DURATION ENUM
+  public Task(User aAssignedTo, User aCreator, String aDue, String aDuration, String aPriority, StorageUnit aTools, String aStatus, String aTitle, String aDescription, int aId, String aReward)
   {
     assignedTo = aAssignedTo;
     creator = aCreator;
@@ -47,7 +44,7 @@ public class Task
     description = aDescription;
     id = aId;
     reward = aReward;
-    storedItems = new ArrayList<StoredItems>();
+    storedItems = new ArrayList<StoredItem>();
   }
 
   //------------------------
@@ -86,7 +83,8 @@ public class Task
     return wasSet;
   }
 
-  public boolean setPriority(enum aPriority)
+    //TODO // FIXME: 11/24/2017 create enum for this
+  public boolean setPriority(String aPriority)
   {
     boolean wasSet = false;
     priority = aPriority;
@@ -101,8 +99,9 @@ public class Task
     wasSet = true;
     return wasSet;
   }
-
-  public boolean setStatus(enum aStatus)
+  
+  //TODO // FIXME: 11/24/2017 CREATE ENUM FOR THIS
+  public boolean setStatus(String aStatus)
   {
     boolean wasSet = false;
     status = aStatus;
@@ -162,7 +161,8 @@ public class Task
     return duration;
   }
 
-  public enum getPriority()
+  //TODO // FIXME: 11/24/2017 create enum for this
+  public String getPriority()
   {
     return priority;
   }
@@ -172,7 +172,8 @@ public class Task
     return tools;
   }
 
-  public enum getStatus()
+    //TODO // FIXME: 11/24/2017 create enum for this
+  public String getStatus()
   {
     return status;
   }
@@ -197,15 +198,15 @@ public class Task
     return reward;
   }
 
-  public StoredItems getStoredItem(int index)
+  public StoredItem getStoredItem(int index)
   {
-    StoredItems aStoredItem = storedItems.get(index);
+    StoredItem aStoredItem = storedItems.get(index);
     return aStoredItem;
   }
 
-  public List<StoredItems> getStoredItems()
+  public List<StoredItem> getStoredItems()
   {
-    List<StoredItems> newStoredItems = Collections.unmodifiableList(storedItems);
+    List<StoredItem> newStoredItems = Collections.unmodifiableList(storedItems);
     return newStoredItems;
   }
 
@@ -221,7 +222,7 @@ public class Task
     return has;
   }
 
-  public int indexOfStoredItem(StoredItems aStoredItem)
+  public int indexOfStoredItem(StoredItem aStoredItem)
   {
     int index = storedItems.indexOf(aStoredItem);
     return index;
@@ -243,7 +244,7 @@ public class Task
     return 0;
   }
 
-  public boolean addStoredItem(StoredItems aStoredItem)
+  public boolean addStoredItem(StoredItem aStoredItem)
   {
     boolean wasAdded = false;
     if (storedItems.contains(aStoredItem)) { return false; }
@@ -263,7 +264,7 @@ public class Task
     return wasAdded;
   }
 
-  public boolean removeStoredItem(StoredItems aStoredItem)
+  public boolean removeStoredItem(StoredItem aStoredItem)
   {
     boolean wasRemoved = false;
     if (!storedItems.contains(aStoredItem))
@@ -288,7 +289,7 @@ public class Task
     return wasRemoved;
   }
 
-  public boolean addStoredItemAt(StoredItems aStoredItem, int index)
+  public boolean addStoredItemAt(StoredItem aStoredItem, int index)
   {  
     boolean wasAdded = false;
     if(addStoredItem(aStoredItem))
@@ -302,7 +303,7 @@ public class Task
     return wasAdded;
   }
 
-  public boolean addOrMoveStoredItemAt(StoredItems aStoredItem, int index)
+  public boolean addOrMoveStoredItemAt(StoredItem aStoredItem, int index)
   {
     boolean wasAdded = false;
     if(storedItems.contains(aStoredItem))
@@ -339,9 +340,9 @@ public class Task
 
   public void delete()
   {
-    ArrayList<StoredItems> copyOfStoredItems = new ArrayList<StoredItems>(storedItems);
+    ArrayList<StoredItem> copyOfStoredItems = new ArrayList<StoredItem>(storedItems);
     storedItems.clear();
-    for(StoredItems aStoredItem : copyOfStoredItems)
+    for(StoredItem aStoredItem : copyOfStoredItems)
     {
       aStoredItem.removeTask(this);
     }
@@ -369,23 +370,27 @@ public class Task
   }
 
   // line 21 "model.ump"
+  //TODO // FIXME: 11/24/2017 ALWAYS returns empty; please fix
    public boolean takeTask(String username, int ID){
-    
+    return false;
   }
 
   // line 22 "model.ump"
+  //TODO // FIXME: 11/24/2017 ALWAYS returns empty; please fix
    public boolean untakeTask(String username, int ID){
-    
+    return false;
   }
 
   // line 23 "model.ump"
+    //TODO // FIXME: 11/24/2017 ALWAYS returns empty; please fix
    public String taskInfos(int ID){
-    
+    return "";
   }
-
+  
+  //TODO // FIXME: 11/24/2017 always returns null; had no return before
   // line 24 "model.ump"
    public StorageUnit toolsInfos(){
-    
+       return null;
   }
 
   // line 25 "model.ump"

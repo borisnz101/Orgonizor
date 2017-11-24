@@ -1,6 +1,4 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.26.0-33ee578-3609 modeling language!*/
-
+package ca.uottawa.exception.orgonizor;
 
 import java.util.*;
 
@@ -37,7 +35,7 @@ public class StorageUnit
   // INTERFACE
   //------------------------
 
-  public boolean addStoredItem(LinkedList aStoredItem)
+  public boolean addStoredItem(StoredItem aStoredItem)
   {
     boolean wasAdded = false;
     if (storedItems.contains(aStoredItem)) { return false; }
@@ -93,12 +91,6 @@ public class StorageUnit
   public int getStorageID()
   {
     return storageID;
-  }
-
-  public StoredItems getStoredItem(int index)
-  {
-    StoredItems aStoredItem = storedItems.get(index);
-    return aStoredItem;
   }
 
   public List<StoredItems> getStoredItems()
@@ -183,7 +175,7 @@ public class StorageUnit
     return wasAdded;
   }
 
-  public boolean removeStoredItem(StoredItems aStoredItem)
+  public boolean removeStoredItem(StoredItem aStoredItem)
   {
     boolean wasRemoved = false;
     //Unable to remove aStoredItem, as it must always have a storageUnit
@@ -331,12 +323,14 @@ public class StorageUnit
 
   // line 55 "model.ump"
    public boolean isInStorage(String name){
-    
+       //TODO // FIXME: 11/24/2017
+       return false;
   }
 
   // line 56 "model.ump"
    public String storedItem(){
-    
+       //TODO // FIXME: 11/24/2017
+       return "";
   }
 
 

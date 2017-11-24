@@ -18,9 +18,7 @@ import android.widget.TabHost;
 public class MainActivity extends AppCompatActivity {
     Dialog myDialog;
     boolean loggedIn = false;
-    private String[] mPlanetTitles;
     private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
     private DBHandler db;
@@ -29,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mPlanetTitles = new String[]{"Venus", "Mercury", "Pluto", "Earth"};
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
         db = new DBHandler(this);
