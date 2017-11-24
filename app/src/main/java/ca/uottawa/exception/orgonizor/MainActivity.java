@@ -2,18 +2,19 @@ package ca.uottawa.exception.orgonizor;
 
 import android.app.Dialog;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TabHost;
+import android.widget.TextView;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     Dialog myDialog;
@@ -61,10 +62,11 @@ public class MainActivity extends AppCompatActivity {
         store.setIndicator("Storage");
         tabs.addTab(store);
 
-        db.onUpgrade(db.getWritableDatabase(),0,0);
-        db.addUser("derp", "lol", "LE herp", 9001);
-        //mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-        if(!loggedIn) {
+        //uncomment to delete the database for testing
+        //db.onUpgrade(db.getWritableDatabase(),0,0);
+        if(!db.usersExist()){
+           callRegisterDialog();
+        }else if(!loggedIn) {
             callLoginDialog();
         }
     }
@@ -119,6 +121,62 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    private void callRegisterDialog() {
+        final EditText user;
+        final EditText password;
+        final EditText passconfirm;
+        final EditText name;
+        final TextView message;
+        myDialog = new Dialog(this);
+        myDialog.setContentView(R.layout.registration_popup);
+        myDialog.setCancelable(false);
+        Button register = (Button) myDialog.findViewById(R.id.register);
+
+        user = (EditText) myDialog.findViewById(R.id.username);
+        password = (EditText) myDialog.findViewById(R.id.password);
+        passconfirm = (EditText) myDialog.findViewById(R.id.confirmpass);
+        message = (TextView) myDialog.findViewById(R.id.alert);
+        name = (EditText) myDialog.findViewById(R.id.name);
+        message.setVisibility(View.INVISIBLE);
+        myDialog.show();
+
+        register.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View v)
+            {
+                //your login calculation goes here
+                System.out.println(user.getText() + " " + password.getText() + " " + passconfirm.getText());
+                //first check that there is a username
+                Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+                Matcher m = p.matcher(user.getText().toString());
+                boolean b = m.find();
+                m = p.matcher(name.getText().toString());
+                boolean c = m.find();
+                if(user.getText().toString().length() < 1){
+                    message.setText("Username must have a greater length than 0!");
+                    message.setVisibility(View.VISIBLE);
+                }else if(b){
+                    message.setText("Username can not contain special characters!");
+                    message.setVisibility(View.VISIBLE);
+                }else if(!password.getText().toString().equals(passconfirm.getText().toString())) {
+                    message.setText("Passwords do not match!");
+                    message.setVisibility(View.VISIBLE);
+                }else if(c){
+                    message.setText("Name can not contain special characters!");
+                    message.setVisibility(View.VISIBLE);
+                }else{
+                    //no errors, we are good to add this user to the DB
+                    //the DBHandler takes care of hashing for us, we don't have to worry
+                    db.addUser(user.getText().toString(), password.getText().toString(), name.getText().toString(), 1); //access level 1 is admin
+                    myDialog.dismiss();
+                }
+            }
+        });
 
     }
 

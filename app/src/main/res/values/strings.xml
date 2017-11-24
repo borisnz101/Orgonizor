@@ -3,4 +3,10 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="placeholder">Placeholder Options</string>
-</resources>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="passwordconfirm">Confirm Password</string>
+    <string name="name">First Name</string>
+    </resources>

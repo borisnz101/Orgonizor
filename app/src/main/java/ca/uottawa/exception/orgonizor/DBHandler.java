@@ -100,6 +100,19 @@ public class DBHandler extends SQLiteOpenHelper {
         return false;
     }
 
+    //returns if there are any users in the DB
+    public boolean usersExist(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Inserting Rowx
+        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_USER, null);
+        int dot = c.getCount();
+        db.close(); // Closing database connection
+        if(dot > 0){
+            return true;
+        }
+        return false;
+    }
+
     //Comes from the android official API doc
     public static SecretKey generateKey(char[] passphraseOrPin, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
         // Number of PBKDF2 hardening rounds to use. Larger values increase
