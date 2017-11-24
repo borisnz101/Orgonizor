@@ -12,7 +12,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.00"
             android:orientation="vertical">
@@ -24,11 +24,11 @@
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="left"
                 android:layout_weight="0.5"
-                android:background="@drawable/ic_account"/>
+                android:background="@drawable/ic_account" />
 
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="100dp"
+                android:id="@+id/nameField"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:paddingLeft="10dp"
@@ -36,20 +36,6 @@
                 android:textSize="36sp"
                 android:textStyle="bold"></TextView>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_weight="0.5"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Switch User" />
         </LinearLayout>
 
     </LinearLayout>

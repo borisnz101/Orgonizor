@@ -4,16 +4,16 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/inbox"
+            android:id="@+id/switche"
             android:checked="false"
             android:icon="@drawable/placeholder"
-            android:title="@string/placeholder" />
+            android:title="@string/switchuser" />
 
         <item
-            android:id="@+id/starred"
+            android:id="@+id/registernew"
             android:checked="false"
             android:icon="@drawable/placeholder"
-            android:title="@string/placeholder" />
+            android:title="@string/registernew" />
 
         <item
             android:id="@+id/sent_mail"

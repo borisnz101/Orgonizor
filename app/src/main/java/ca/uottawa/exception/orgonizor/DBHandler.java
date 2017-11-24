@@ -79,7 +79,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    public boolean authenticateUser(String user, String password){
+    public User authenticateUser(String user, String password){
         SQLiteDatabase db = this.getWritableDatabase();
         String pass = "";
         try {
@@ -90,14 +90,15 @@ public class DBHandler extends SQLiteOpenHelper {
             e.printStackTrace();
         }
         // Inserting Rowx
-        Cursor c = db.query(TABLE_USER, new String[]{"username"}
+        Cursor c = db.query(TABLE_USER, new String[]{"username", "name", "accessLevel"}
                 , "username = ? AND password = ?" ,new String[]{user, pass}, null, null, null);
         int dot = c.getCount();
         db.close(); // Closing database connection
         if(dot > 0){
-            return true;
+            c.moveToNext();
+            return new User(c.getString(1), c.getString(0), c.getInt(2) == 1 ? true : false, null);
         }
-        return false;
+        return null;
     }
 
     //returns if there are any users in the DB

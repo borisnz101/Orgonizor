@@ -16,6 +16,7 @@
         tools:layout_editor_absoluteY="8dp">
 
         <LinearLayout
+            android:id="@+id/registerField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -33,6 +34,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/alertField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -51,6 +53,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/nameField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -75,6 +78,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/usernameField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -99,6 +103,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/passwordField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -123,12 +128,13 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/confirmField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="0.06"
             android:orientation="horizontal"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:layout_weight="0.06">
+            android:paddingRight="5dp">
 
             <TextView
                 android:id="@+id/textView2"
@@ -145,6 +151,30 @@
                 android:layout_weight="0.77"
                 android:ems="10"
                 android:inputType="textPassword" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/adminField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+
+            <TextView
+                android:id="@+id/isadmin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.20"
+                android:text="@string/admin" />
+
+            <CheckBox
+                android:id="@+id/checkBox29"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Admin" />
+
         </LinearLayout>
 
         <LinearLayout

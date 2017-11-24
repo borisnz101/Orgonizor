@@ -3,6 +3,9 @@ package ca.uottawa.exception.orgonizor;
 import android.app.Dialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,16 +13,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     Dialog myDialog;
     boolean loggedIn = false;
+    private User logged;
     private DrawerLayout mDrawerLayout;
+    private NavigationView navigationView;
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
     private DBHandler db;
@@ -31,15 +37,14 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
         db = new DBHandler(this);
-        //mDrawerList = (ListView) findViewById(R.id.navList);
-
-        //mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-          //      android.R.layout.simple_list_item_1, mPlanetTitles));
 
         setupDrawer();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         TabHost tabs = (TabHost)findViewById(R.id.tabhost);
         tabs.setup();
@@ -65,9 +70,9 @@ public class MainActivity extends AppCompatActivity {
         //uncomment to delete the database for testing
         //db.onUpgrade(db.getWritableDatabase(),0,0);
         if(!db.usersExist()){
-           callRegisterDialog();
+           callRegisterDialog(true, false);
         }else if(!loggedIn) {
-            callLoginDialog();
+            callLoginDialog(false);
         }
     }
 
@@ -93,12 +98,12 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
-    private void callLoginDialog() {
+    private void callLoginDialog(boolean cancelable) {
         final EditText user;
         final EditText password;
         myDialog = new Dialog(this);
         myDialog.setContentView(R.layout.activity_login_pop_up);
-        myDialog.setCancelable(false);
+        myDialog.setCancelable(cancelable);
         Button login = (Button) myDialog.findViewById(R.id.login);
 
         user = (EditText) myDialog.findViewById(R.id.username);
@@ -114,9 +119,13 @@ public class MainActivity extends AppCompatActivity {
                 //your login calculation goes here
                 System.out.println(user.getText() + " " + password.getText());
                 //if(user.getText().toString().equals("admin") && password.getText().toString().equals("admin")){
-                 if(db.authenticateUser(user.getText().toString(), password.getText().toString())){
-                    loggedIn = true;
-                    myDialog.dismiss();
+                User usere = db.authenticateUser(user.getText().toString(), password.getText().toString());
+                 if(usere != null){
+                     logged = usere;
+                     loggedIn = true;
+                     TextView nameField = (TextView) mDrawerLayout.findViewById(R.id.nameField);
+                     nameField.setText(usere.getName());
+                     myDialog.dismiss();
                 }
             }
         });
@@ -124,15 +133,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void callRegisterDialog() {
+    //Firstuser is used to know if we should bother showing an admin checkbox, if there is no other admins this one must be an admin
+    private void callRegisterDialog(final boolean firstUser, boolean cancelable) {
         final EditText user;
         final EditText password;
         final EditText passconfirm;
         final EditText name;
         final TextView message;
+        final LinearLayout layoutAdmin;
         myDialog = new Dialog(this);
         myDialog.setContentView(R.layout.registration_popup);
-        myDialog.setCancelable(false);
+        myDialog.setCancelable(cancelable);
         Button register = (Button) myDialog.findViewById(R.id.register);
 
         user = (EditText) myDialog.findViewById(R.id.username);
@@ -140,7 +151,12 @@ public class MainActivity extends AppCompatActivity {
         passconfirm = (EditText) myDialog.findViewById(R.id.confirmpass);
         message = (TextView) myDialog.findViewById(R.id.alert);
         name = (EditText) myDialog.findViewById(R.id.name);
+        layoutAdmin = (LinearLayout) myDialog.findViewById(R.id.adminField);
+        if(firstUser) {
+            layoutAdmin.setVisibility(View.INVISIBLE);
+        }
         message.setVisibility(View.INVISIBLE);
+
         myDialog.show();
 
         register.setOnClickListener(new View.OnClickListener()
@@ -157,8 +173,11 @@ public class MainActivity extends AppCompatActivity {
                 boolean b = m.find();
                 m = p.matcher(name.getText().toString());
                 boolean c = m.find();
-                if(user.getText().toString().length() < 1){
+                if(user.getText().toString().length() < 1) {
                     message.setText("Username must have a greater length than 0!");
+                    message.setVisibility(View.VISIBLE);
+                }else if(name.getText().toString().length() < 1){
+                    message.setText("Name must have a greater length than 0!");
                     message.setVisibility(View.VISIBLE);
                 }else if(b){
                     message.setText("Username can not contain special characters!");
@@ -173,11 +192,39 @@ public class MainActivity extends AppCompatActivity {
                     //no errors, we are good to add this user to the DB
                     //the DBHandler takes care of hashing for us, we don't have to worry
                     db.addUser(user.getText().toString(), password.getText().toString(), name.getText().toString(), 1); //access level 1 is admin
+
+                    //code to autoLogin if this is the first time someone registers
+                    if(firstUser) {
+                        logged = new User(name.getText().toString(), user.getText().toString(), true, null);
+                        TextView nameField = (TextView) mDrawerLayout.findViewById(R.id.nameField);
+                        nameField.setText(name.getText().toString());
+                    }
+
                     myDialog.dismiss();
                 }
             }
         });
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        // Handle navigation view item clicks here.
+        switch (item.getItemId()) {
+
+            case R.id.registernew: {
+                callRegisterDialog(false, true);
+                break;
+            }
+
+            case R.id.switche: {
+                callLoginDialog(true);
+                break;
+            }
+        }
+        //close navigation drawer
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        return false;
     }
 
     @Override
@@ -199,7 +246,6 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
 
 
         // Activate the navigation drawer toggle

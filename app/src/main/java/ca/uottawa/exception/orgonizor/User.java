@@ -17,7 +17,6 @@ public class User {
   //User Attributes
   private String name;
   private String username;
-  private String password;
   private boolean isParent;
   private Image avatar;
 
@@ -29,11 +28,10 @@ public class User {
   // CONSTRUCTOR
   //------------------------
 
-  public User(String aName, String aUsername, String aPassword, boolean aIsParent, Image aAvatar)
+  public User(String aName, String aUsername, boolean aIsParent, Image aAvatar)
   {
     name = aName;
     username = aUsername;
-    password = aPassword;
     isParent = aIsParent;
     avatar = aAvatar;
     storageUnits = new ArrayList<StorageUnit>();
@@ -56,14 +54,6 @@ public class User {
   {
     boolean wasSet = false;
     username = aUsername;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setPassword(String aPassword)
-  {
-    boolean wasSet = false;
-    password = aPassword;
     wasSet = true;
     return wasSet;
   }
@@ -92,11 +82,6 @@ public class User {
   public String getUsername()
   {
     return username;
-  }
-
-  public String getPassword()
-  {
-    return password;
   }
 
   public boolean getIsParent()
@@ -357,7 +342,6 @@ public class User {
     return super.toString() + "["+
             "name" + ":" + getName()+ "," +
             "username" + ":" + getUsername()+ "," +
-            "password" + ":" + getPassword()+ "," +
             "isParent" + ":" + getIsParent()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "avatar" + "=" + (getAvatar() != null ? !getAvatar().equals(this)  ? getAvatar().toString().replaceAll("  ","    ") : "this" : "null");
   }
