@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
+    private DBHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         mPlanetTitles = new String[]{"Venus", "Mercury", "Pluto", "Earth"};
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
+        db = new DBHandler(this);
         //mDrawerList = (ListView) findViewById(R.id.navList);
 
         //mDrawerList.setAdapter(new ArrayAdapter<String>(this,
@@ -62,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
         store.setIndicator("Storage");
         tabs.addTab(store);
 
+        db.onUpgrade(db.getWritableDatabase(),0,0);
+        db.addUser("derp", "lol", "LE herp", 9001);
         //mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         if(!loggedIn) {
             callLoginDialog();
@@ -110,7 +114,8 @@ public class MainActivity extends AppCompatActivity {
             {
                 //your login calculation goes here
                 System.out.println(user.getText() + " " + password.getText());
-                if(user.getText().toString().equals("admin") && password.getText().toString().equals("admin")){
+                //if(user.getText().toString().equals("admin") && password.getText().toString().equals("admin")){
+                 if(db.authenticateUser(user.getText().toString(), password.getText().toString())){
                     loggedIn = true;
                     myDialog.dismiss();
                 }
