@@ -15,9 +15,15 @@ public class Task {
   private User creator;
   private String due;
   private String duration;
-  private String priority;
+  private enum Priority{
+    URGENT, IMPORTANT, NORAMAL, NOT_URGENT
+  }
+  private Priority priority;
   private StorageUnit tools;
-  private String status;
+  private enum Status{
+    COMPLETED, ASSIGNED, NOT_ASSIGNED
+  }
+  private Status status;
   private String title;
   private String description;
   private int id;
@@ -30,8 +36,8 @@ public class Task {
   //------------------------
   // CONSTRUCTOR
   //------------------------
-    //TODO // FIXME: 11/24/2017 CREATE PRIORITY AND DURATION ENUM
-  public Task(User aAssignedTo, User aCreator, String aDue, String aDuration, String aPriority, StorageUnit aTools, String aStatus, String aTitle, String aDescription, int aId, String aReward)
+
+  public Task(User aAssignedTo, User aCreator, String aDue, String aDuration, Priority aPriority, StorageUnit aTools, Status aStatus, String aTitle, String aDescription, int aId, String aReward)
   {
     assignedTo = aAssignedTo;
     creator = aCreator;
@@ -83,8 +89,7 @@ public class Task {
     return wasSet;
   }
 
-    //TODO // FIXME: 11/24/2017 create enum for this
-  public boolean setPriority(String aPriority)
+  public boolean setPriority(Priority aPriority)
   {
     boolean wasSet = false;
     priority = aPriority;
@@ -99,9 +104,8 @@ public class Task {
     wasSet = true;
     return wasSet;
   }
-  
-  //TODO // FIXME: 11/24/2017 CREATE ENUM FOR THIS
-  public boolean setStatus(String aStatus)
+
+  public boolean setStatus(Status aStatus)
   {
     boolean wasSet = false;
     status = aStatus;
@@ -161,8 +165,7 @@ public class Task {
     return duration;
   }
 
-  //TODO // FIXME: 11/24/2017 create enum for this
-  public String getPriority()
+  public Priority getPriority()
   {
     return priority;
   }
@@ -172,8 +175,7 @@ public class Task {
     return tools;
   }
 
-    //TODO // FIXME: 11/24/2017 create enum for this
-  public String getStatus()
+  public Status getStatus()
   {
     return status;
   }
@@ -354,50 +356,71 @@ public class Task {
     }
   }
 
-  // line 18 "model.ump"
+  /* line 18 "model.ump"
    public void createTask(String title, String description, String due, String duration, User creator){
     
   }
 
+  why not just use the constructor */
+
   // line 19 "model.ump"
+  //TODO remove task from database
    public void deleteTask(int ID){
     
   }
 
-  // line 20 "model.ump"
+  /* line 20 "model.ump"
    public void modifyTask(int ID){
     
   }
 
+  seems useless to me, why not just use the setters */
+
   // line 21 "model.ump"
-  //TODO // FIXME: 11/24/2017 ALWAYS returns empty; please fix
-   public boolean takeTask(String username, int ID){
-    return false;
+
+  /* public boolean takeTask(User aUser){
+     boolean wasTaken = false;
+     if(aUser != null){
+       this.setUser(aUser);
+     }
+     return wasTaken;
   }
 
   // line 22 "model.ump"
-  //TODO // FIXME: 11/24/2017 ALWAYS returns empty; please fix
+
    public boolean untakeTask(String username, int ID){
     return false;
   }
 
+  these methods already exist in user */
+
   // line 23 "model.ump"
-    //TODO // FIXME: 11/24/2017 ALWAYS returns empty; please fix
-   public String taskInfos(int ID){
-    return "";
-  }
-  
-  //TODO // FIXME: 11/24/2017 always returns null; had no return before
-  // line 24 "model.ump"
-   public StorageUnit toolsInfos(){
-       return null;
+   public String taskInfo(){
+
+     return this.toString();
   }
 
-  // line 25 "model.ump"
+  // line 24 "model.ump"
+   public String toolsInfo(){
+
+     String string = "[";
+
+     for(int i=0; i<this.numberOfStoredItems()-1; i++ ){
+
+       string = string + this.getStoredItem(i).toString();
+
+     }
+
+     string = string + "]";
+
+     return string;
+  }
+
+  /* line 25 "model.ump"
    public void hideTask(String username){
     
   }
-
+  I dont see the use of this method */
 
   public String toString()
   {
