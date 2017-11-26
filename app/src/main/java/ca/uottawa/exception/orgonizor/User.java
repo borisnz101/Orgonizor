@@ -5,6 +5,7 @@ import android.media.Image;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.awt.Image;
 
 // line 30 "model.ump"
 // line 76 "model.ump"
@@ -327,8 +328,9 @@ public class User {
   }
 
   // line 41 "model.ump"
-   public void deleteUser(String username){
+   public void deleteUser(User username){
     
+	   username = null;
   }
 
   // line 42 "model.ump"
