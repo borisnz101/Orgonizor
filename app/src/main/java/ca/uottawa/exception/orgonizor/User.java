@@ -5,7 +5,6 @@ import android.media.Image;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.awt.Image;
 
 // line 30 "model.ump"
 // line 76 "model.ump"
@@ -20,6 +19,7 @@ public class User {
   private String username;
   private boolean isParent;
   private Image avatar;
+  private int id;
 
   //User Associations
   private List<StorageUnit> storageUnits;
@@ -29,8 +29,9 @@ public class User {
   // CONSTRUCTOR
   //------------------------
 
-  public User(String aName, String aUsername, boolean aIsParent, Image aAvatar)
+  public User(int id, String aName, String aUsername, boolean aIsParent, Image aAvatar)
   {
+    this.id = id;
     name = aName;
     username = aUsername;
     isParent = aIsParent;
@@ -93,6 +94,10 @@ public class User {
   public Image getAvatar()
   {
     return avatar;
+  }
+
+  public int getId(){
+    return id;
   }
 
   public StorageUnit getStorageUnit(int index)

@@ -37,9 +37,12 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_USER + "("
+        String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
         + KEY_ID + " INTEGER PRIMARY KEY,username TEXT, password TEXT, name TEXT, accessLevel INTEGER" + ")";
-        db.execSQL(CREATE_CONTACTS_TABLE);
+        db.execSQL(CREATE_USER_TABLE);
+        String CREATE_TASK_TABLE = "CREATE TABLE " + TABLE_USER + "("
+                + KEY_ID + " INTEGER PRIMARY KEY,assignedto INTEGER, creator INTEGER, due TEXT, duration TEXT, priority INTEGER, tools INTEGER, status INTEGER, title TEXT, description TEXT, id INTEGER" + ")";
+        db.execSQL(CREATE_TASK_TABLE);
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -49,14 +52,25 @@ public class DBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    //User aAssignedTo, User aCreator, String aDue, String aDuration, Priority aPriority, StorageUnit aTools, Status aStatus, String aTitle, String aDescription, int aId, String aReward
     public void addTask(Task task){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        //values.put("username", user); // Shop Name
+        values.put("assignedto", task.getAssignedTo().getId()); // Shop Name
+        values.put("creator", task.getCreator().getId());
+        values.put("due", task.getDue());
+        values.put("duration", task.getDuration());
+        values.put("priority", task.getPriority());
+        values.put("tools", task.getTools().getStorageID());
+        values.put("status", task.getStatus().getValue());
+        values.put("title", task.getTitle());
+        values.put("description", task.getDescription());
+        values.put("id", task.getId());
+        values.put("reward", task.getReward());
         //values.put("name", name);
         //values.put("accessLevel", accessLevel);
         // Inserting Row
-        db.insert(TABLE_USER, null, values);
+        db.insert(TABLE_TASK, null, values);
         db.close(); // Closing database connection
 
     }
@@ -90,13 +104,13 @@ public class DBHandler extends SQLiteOpenHelper {
             e.printStackTrace();
         }
         // Inserting Rowx
-        Cursor c = db.query(TABLE_USER, new String[]{"username", "name", "accessLevel"}
+        Cursor c = db.query(TABLE_USER, new String[]{"username", "name", "accessLevel", KEY_ID}
                 , "username = ? AND password = ?" ,new String[]{user, pass}, null, null, null);
         int dot = c.getCount();
         db.close(); // Closing database connection
         if(dot > 0){
             c.moveToNext();
-            return new User(c.getString(1), c.getString(0), c.getInt(2) == 1 ? true : false, null);
+            return new User(c.getInt(3), c.getString(1), c.getString(0), c.getInt(2) == 1 ? true : false, null);
         }
         return null;
     }

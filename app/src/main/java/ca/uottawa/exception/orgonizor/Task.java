@@ -15,13 +15,29 @@ public class Task {
   private User creator;
   private String due;
   private String duration;
-  private enum Priority{
-    URGENT, IMPORTANT, NORAMAL, NOT_URGENT
+  public enum Priority{
+    URGENT(3), IMPORTANT(2), NORAMAL(1), NOT_URGENT(0);
+      private final int value;
+      Priority(int value) {
+          this.value = value;
+      }
+
+      public int getValue() {
+          return value;
+      }
   }
   private Priority priority;
   private StorageUnit tools;
-  private enum Status{
-    COMPLETED, ASSIGNED, NOT_ASSIGNED
+  public enum Status{
+    COMPLETED(2), ASSIGNED(1), NOT_ASSIGNED(0);
+      private final int value;
+      Status(int value) {
+          this.value = value;
+      }
+
+      public int getValue() {
+          return value;
+      }
   }
   private Status status;
   private String title;
@@ -165,9 +181,9 @@ public class Task {
     return duration;
   }
 
-  public Priority getPriority()
+  public int getPriority()
   {
-    return priority;
+    return priority.getValue();
   }
 
   public StorageUnit getTools()
@@ -433,7 +449,7 @@ public class Task {
             "reward" + ":" + getReward()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "assignedTo" + "=" + (getAssignedTo() != null ? !getAssignedTo().equals(this)  ? getAssignedTo().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "creator" + "=" + (getCreator() != null ? !getCreator().equals(this)  ? getCreator().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "priority" + "=" + (getPriority() != null ? !getPriority().equals(this)  ? getPriority().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "priority" + "=" + (getPriority() + System.getProperties().getProperty("line.separator")) +
             "  " + "tools" + "=" + (getTools() != null ? !getTools().equals(this)  ? getTools().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "status" + "=" + (getStatus() != null ? !getStatus().equals(this)  ? getStatus().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "user = "+(getUser()!=null?Integer.toHexString(System.identityHashCode(getUser())):"null");
