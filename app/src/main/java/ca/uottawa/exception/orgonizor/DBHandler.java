@@ -14,6 +14,7 @@ import android.util.Base64;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.util.ArrayList;
 
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -41,7 +42,7 @@ public class DBHandler extends SQLiteOpenHelper {
         + KEY_ID + " INTEGER PRIMARY KEY,username TEXT, password TEXT, name TEXT, accessLevel INTEGER" + ")";
         db.execSQL(CREATE_USER_TABLE);
         String CREATE_TASK_TABLE = "CREATE TABLE " + TABLE_USER + "("
-                + KEY_ID + " INTEGER PRIMARY KEY,assignedto INTEGER, creator INTEGER, due TEXT, duration TEXT, priority INTEGER, tools INTEGER, status INTEGER, title TEXT, description TEXT, id INTEGER" + ")";
+                + KEY_ID + " INTEGER PRIMARY KEY, assignedto INTEGER, creator INTEGER, due TEXT, duration TEXT, priority INTEGER, tools INTEGER, status INTEGER, title TEXT, description TEXT, id INTEGER, reward TEXT" + ")";
         db.execSQL(CREATE_TASK_TABLE);
     }
     @Override
@@ -50,6 +51,19 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
         // Creating tables again
         onCreate(db);
+    }
+
+    public ArrayList<Task> getTasks(){
+        ArrayList<Task> tasks = new ArrayList<Task>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        //get data
+        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_TASK, null);
+        int dot = c.getCount();
+        db.close(); // Closing database connection
+        while(c.moveToNext()){
+            tasks.add(new Task(getUser(c.getInt(1)), getUser(c.getInt(2)), c.getString(3), c.getString(4), c.getInt(5), getStorageUnit(c.getInt(6)), c.getInt(7), c.getString(8), c.getString(9), c.getInt(10), c.getString(11)));
+        }
+        return tasks;
     }
 
     //User aAssignedTo, User aCreator, String aDue, String aDuration, Priority aPriority, StorageUnit aTools, Status aStatus, String aTitle, String aDescription, int aId, String aReward
@@ -62,7 +76,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put("duration", task.getDuration());
         values.put("priority", task.getPriority());
         values.put("tools", task.getTools().getStorageID());
-        values.put("status", task.getStatus().getValue());
+        values.put("status", task.getStatus());
         values.put("title", task.getTitle());
         values.put("description", task.getDescription());
         values.put("id", task.getId());
@@ -73,6 +87,11 @@ public class DBHandler extends SQLiteOpenHelper {
         db.insert(TABLE_TASK, null, values);
         db.close(); // Closing database connection
 
+    }
+
+    //TODO complete
+    public StorageUnit getStorageUnit(int id){
+        return null;
     }
 
     public void addUser(String user, String password, String name, int accessLevel) {
@@ -94,7 +113,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     public User authenticateUser(String user, String password){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         String pass = "";
         try {
             pass = Base64.encodeToString(generateKey(password.toCharArray(), "marcelle".getBytes()).getEncoded(), Base64.DEFAULT);
@@ -117,7 +136,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     //returns if there are any users in the DB
     public boolean usersExist(){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         // Inserting Rowx
         Cursor c = db.rawQuery("SELECT * FROM " + TABLE_USER, null);
         int dot = c.getCount();
@@ -126,6 +145,20 @@ public class DBHandler extends SQLiteOpenHelper {
             return true;
         }
         return false;
+    }
+
+    public User getUser(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Inserting Rowx
+        Cursor c = db.query(TABLE_USER, new String[]{"username", "name", "accessLevel", KEY_ID}
+                , "id = ?" ,new String[]{id+""}, null, null, null);
+        int dot = c.getCount();
+        db.close(); // Closing database connection
+        if(dot > 0){
+            c.moveToNext();
+            return new User(c.getInt(3), c.getString(1), c.getString(0), c.getInt(2) == 1 ? true : false, null);
+        }
+        return null;
     }
 
     //Comes from the android official API doc

@@ -26,7 +26,7 @@ public class Task {
           return value;
       }
   }
-  private Priority priority;
+  private int priority;
   private StorageUnit tools;
   public enum Status{
     COMPLETED(2), ASSIGNED(1), NOT_ASSIGNED(0);
@@ -39,7 +39,7 @@ public class Task {
           return value;
       }
   }
-  private Status status;
+  private int status;
   private String title;
   private String description;
   private int id;
@@ -53,7 +53,7 @@ public class Task {
   // CONSTRUCTOR
   //------------------------
 
-  public Task(User aAssignedTo, User aCreator, String aDue, String aDuration, Priority aPriority, StorageUnit aTools, Status aStatus, String aTitle, String aDescription, int aId, String aReward)
+  public Task(User aAssignedTo, User aCreator, String aDue, String aDuration, int aPriority, StorageUnit aTools, int aStatus, String aTitle, String aDescription, int aId, String aReward)
   {
     assignedTo = aAssignedTo;
     creator = aCreator;
@@ -105,7 +105,7 @@ public class Task {
     return wasSet;
   }
 
-  public boolean setPriority(Priority aPriority)
+  public boolean setPriority(int aPriority)
   {
     boolean wasSet = false;
     priority = aPriority;
@@ -121,7 +121,7 @@ public class Task {
     return wasSet;
   }
 
-  public boolean setStatus(Status aStatus)
+  public boolean setStatus(int aStatus)
   {
     boolean wasSet = false;
     status = aStatus;
@@ -183,7 +183,7 @@ public class Task {
 
   public int getPriority()
   {
-    return priority.getValue();
+    return priority;
   }
 
   public StorageUnit getTools()
@@ -191,7 +191,7 @@ public class Task {
     return tools;
   }
 
-  public Status getStatus()
+  public int getStatus()
   {
     return status;
   }
@@ -451,7 +451,7 @@ public class Task {
             "  " + "creator" + "=" + (getCreator() != null ? !getCreator().equals(this)  ? getCreator().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "priority" + "=" + (getPriority() + System.getProperties().getProperty("line.separator")) +
             "  " + "tools" + "=" + (getTools() != null ? !getTools().equals(this)  ? getTools().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "status" + "=" + (getStatus() != null ? !getStatus().equals(this)  ? getStatus().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "status" + "=" + (getStatus() + System.getProperties().getProperty("line.separator")) +
             "  " + "user = "+(getUser()!=null?Integer.toHexString(System.identityHashCode(getUser())):"null");
   }
 }

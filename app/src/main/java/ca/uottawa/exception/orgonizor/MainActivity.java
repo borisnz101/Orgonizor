@@ -67,6 +67,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         store.setIndicator("Storage");
         tabs.addTab(store);
 
+        findViewById(R.id.addtask).setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View v)
+            {
+                callAddTask(true);
+            }
+        });
+        findViewById(R.id.textView8).setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View v)
+            {
+                callAddTask(true);
+            }
+        });
         //uncomment to delete the database for testing
         //db.onUpgrade(db.getWritableDatabase(),0,0);
         if(!db.usersExist()){
@@ -133,6 +151,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    private void callAddTask(boolean cancelable) {
+        final EditText user;
+        final EditText password;
+        myDialog = new Dialog(this);
+        myDialog.setContentView(R.layout.addtask_popup);
+        myDialog.setCancelable(cancelable);
+        Button login = (Button) myDialog.findViewById(R.id.login);
+
+        user = (EditText) myDialog.findViewById(R.id.username);
+        password = (EditText) myDialog.findViewById(R.id.password);
+        myDialog.show();
+
+
+    }
+
     //Firstuser is used to know if we should bother showing an admin checkbox, if there is no other admins this one must be an admin
     private void callRegisterDialog(final boolean firstUser, boolean cancelable) {
         final EditText user;
@@ -195,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     //code to autoLogin if this is the first time someone registers
                     if(firstUser) {
-                        logged = new User(name.getText().toString(), user.getText().toString(), true, null);
+                        logged = db.authenticateUser(user.getText().toString(), password.getText().toString());
                         TextView nameField = (TextView) mDrawerLayout.findViewById(R.id.nameField);
                         nameField.setText(name.getText().toString());
                     }

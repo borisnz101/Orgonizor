@@ -220,7 +220,7 @@
                              android:layout_marginBottom="20dp">
 
                              <ImageButton
-                                 android:id="@+id/button8"
+                                 android:id="@+id/addtask"
                                  android:layout_width="30dp"
                                  android:layout_height="30dp"
                                  android:background="@drawable/ic_add"
@@ -231,8 +231,8 @@
                                  android:layout_width="wrap_content"
                                  android:layout_height="wrap_content"
                                  android:layout_centerVertical="true"
-                                 android:layout_toEndOf="@+id/button8"
-                                 android:layout_toRightOf="@+id/button8"
+                                 android:layout_toEndOf="@+id/addtask"
+                                 android:layout_toRightOf="@+id/addtask"
                                  android:text="New task"
                                  android:textSize="20sp" />
 
@@ -240,8 +240,8 @@
                                  android:id="@+id/switch1"
                                  android:layout_width="wrap_content"
                                  android:layout_height="wrap_content"
-                                 android:layout_alignBaseline="@+id/button8"
-                                 android:layout_alignBottom="@+id/button8"
+                                 android:layout_alignBaseline="@+id/addtask"
+                                 android:layout_alignBottom="@+id/addtask"
                                  android:layout_alignParentEnd="true"
                                  android:layout_alignParentRight="true"
                                  android:text="Only show my tasks" />
