@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
     private DBHandler db;
-    private String newItem;
+    //private String newItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final GridLayout fridGrid = (GridLayout) findViewById(R.id.FridgeGrid);
         final GridLayout cupGrid = (GridLayout) findViewById(R.id.CupGrid);
         final GridLayout broomCGrid = (GridLayout) findViewById(R.id.BroomCGrid);
+        final GridLayout materialGrid = (GridLayout) findViewById(R.id.MaterialGrid);
+        final GridLayout groceGrid = (GridLayout) findViewById(R.id.GroceGrid);
 
 
         TabHost tabs = (TabHost) findViewById(R.id.tabhost);
@@ -117,6 +119,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        findViewById(R.id.button12).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callAddItem(materialGrid);
+            }
+        });
+        findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callAddItem(groceGrid);
+            }
+        });
+
         findViewById(R.id.Task).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,6 +145,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // TODO implement hideTask
             }
         });
+
+
 
         //uncomment to delete the database for testing
         //db.onUpgrade(db.getWritableDatabase(),0,0);
@@ -223,17 +240,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void callAddItem(GridLayout grid) {
+    private void callAddItem(final GridLayout grid) {
         myDialog = new Dialog(this);
         myDialog.setContentView(R.layout.additem_popup);
-
-        newItem = myDialog.findViewById(R.id.editText).toString();
-        // StorageUnit.addStoredItem(newItem); change to public
-
-        CheckBox itemAdded = new CheckBox(MainActivity.this);
-        itemAdded.setText(newItem);
-        grid.addView(itemAdded);
         myDialog.show();
+
+        Button ok = (Button) myDialog.findViewById(R.id.buttonOK);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // StorageUnit.addStoredItem(newItem); change to public and save all the items in the DB
+                EditText editT = (EditText) myDialog.findViewById(R.id.editText);
+                String newItem = editT.getText().toString();
+                CheckBox itemAdded = new CheckBox(MainActivity.this);
+                itemAdded.setText(newItem);
+                grid.addView(itemAdded);
+                myDialog.dismiss();
+            }
+        });
+        Button cancel = (Button) myDialog.findViewById(R.id.buttonCancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
     }
 
     //Firstuser is used to know if we should bother showing an admin checkbox, if there is no other admins this one must be an admin
