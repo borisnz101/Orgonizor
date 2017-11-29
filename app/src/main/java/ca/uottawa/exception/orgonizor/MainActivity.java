@@ -9,17 +9,15 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridLayout;
-import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -86,14 +84,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onClick(View v) {
-                callAddTask(true);
+                addTaskToView(new Task(null, null, "", "", 0, null, 0, "Clean garage", "", 0, ""));
+                //callAddTask(true);
             }
         });
         findViewById(R.id.textView8).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                callAddTask(true);
+                addTaskToView(new Task(null, null, "", "", 0, null, 0, "Clean garage", "", 0, ""));
+                //callAddTask(true);
             }
         });
 
@@ -132,12 +132,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        findViewById(R.id.Task).setOnClickListener(new View.OnClickListener() {
+        /*findViewById(R.id.TaskTitle).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callAddTask(true); // Maybe we should use the same with Task argument?
+                //callAddTask(true); // Maybe we should use the same with Task argument?
             }
-        });
+        });*/
         findViewById(R.id.switch1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,6 +177,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+    }
+
+    private void addTaskToView(Task task){
+        LinearLayout list = (LinearLayout) findViewById(R.id.taskList);
+        View layout2 = LayoutInflater.from(this).inflate(R.layout.task_entry, list, false);
+
+        TextView title = (TextView) layout2.findViewById(R.id.TaskTitle);
+        title.setText(task.getTitle());
+
+        list.addView(layout2);
     }
 
     private void callLoginDialog(boolean cancelable) {
@@ -234,8 +244,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //int aPriority, StorageUnit aTools, int aStatus, String aTitle, String aDescription, int aId, String aReward);
         //StoredItem.addTask(newTask); change to public
 
-        user = (EditText) myDialog.findViewById(R.id.username);
-        password = (EditText) myDialog.findViewById(R.id.password);
+
         myDialog.show();
 
     }
