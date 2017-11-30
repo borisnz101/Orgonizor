@@ -1,5 +1,6 @@
 package ca.uottawa.exception.orgonizor;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -14,13 +15,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -84,8 +90,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onClick(View v) {
-                addTaskToView(new Task(null, null, "", "", 0, null, 0, "Clean garage", "", 0, ""));
-                //callAddTask(true);
+                //addTaskToView(new Task(null, null, "", "", 0, null, 0, "Clean garage", "", 0, ""));
+                callAddTask(true);
             }
         });
         findViewById(R.id.textView8).setOnClickListener(new View.OnClickListener() {
@@ -180,12 +186,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void addTaskToView(Task task){
-        LinearLayout list = (LinearLayout) findViewById(R.id.taskList);
-        View layout2 = LayoutInflater.from(this).inflate(R.layout.task_entry, list, false);
+        final LinearLayout list = (LinearLayout) findViewById(R.id.taskList);
+        final View layout2 = LayoutInflater.from(this).inflate(R.layout.task_entry, list, false);
 
         TextView title = (TextView) layout2.findViewById(R.id.TaskTitle);
         title.setText(task.getTitle());
 
+        TextView id = (TextView) layout2.findViewById(R.id.taskid);
+        id.setText(task.getId());
+
+        CheckBox chk = (CheckBox) layout2.findViewById(R.id.taskComplete);
+
+        chk.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                list.removeView(layout2);
+                Toast.makeText(getApplication().getBaseContext(), R.string.taskcomplete, Toast.LENGTH_SHORT).show();
+            }
+        });
         list.addView(layout2);
     }
 
@@ -231,14 +250,52 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String taskTitle = myDialog.findViewById(R.id.editText).toString();
         String taskDescription = myDialog.findViewById(R.id.editText2).toString();
 
-        Spinner assignee= (Spinner) findViewById(R.id.spinner);
-        String taskAssignee = assignee.getSelectedItem().toString();
+        final Spinner assignee= (Spinner) myDialog.findViewById(R.id.spinner);
+        final Spinner priority= (Spinner) myDialog.findViewById(R.id.spinner2);
+        final Spinner status= (Spinner) myDialog.findViewById(R.id.spinner3);
 
-        Spinner priority= (Spinner) findViewById(R.id.spinner2);
-        int taskPriority = Integer.parseInt(priority.getSelectedItem().toString());
+        Button submit = (Button) myDialog.findViewById(R.id.addtaskbutton);
 
-        Spinner status= (Spinner) findViewById(R.id.spinner3);
-        int taskStatus = Integer.parseInt(assignee.getSelectedItem().toString());
+        submit.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                String taskAssignee = assignee.getSelectedItem().toString();
+                int taskPriority = Integer.parseInt(priority.getSelectedItem().toString());
+                int taskStatus = Integer.parseInt(status.getSelectedItem().toString());
+            }
+        });
+
+
+        final Calendar myCalendar = Calendar.getInstance();
+        final EditText due = (EditText) myDialog.findViewById(R.id.dueDate);
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                String myFormat = "MM/dd/yy"; //In which you need put here
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+                due.setText(sdf.format(myCalendar.getTime()));
+            }
+
+        };
+        due.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(MainActivity.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
 
         //Task newTask = new Task(User aAssignedTo, User aCreator, String aDue, String aDuration,
         //int aPriority, StorageUnit aTools, int aStatus, String aTitle, String aDescription, int aId, String aReward);

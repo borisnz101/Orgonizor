@@ -16,6 +16,12 @@
             app:srcCompat="@drawable/ic_account" />
 
         <TextView
+            android:id="@+id/taskid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+
+        <TextView
             android:id="@+id/TaskTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,10 +30,11 @@
             android:layout_toRightOf="@+id/imageView2"
             android:text="Task 1"
             android:textAlignment="textStart"
+            android:layout_gravity="start"
             android:textSize="35sp" />
 
         <CheckBox
-            android:id="@+id/checkBox37"
+            android:id="@+id/taskComplete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
