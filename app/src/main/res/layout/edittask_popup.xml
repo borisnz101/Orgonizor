@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Create Task"
+            android:text="@string/edit_task"
             android:textAlignment="center"
             android:textIsSelectable="true"
             android:textSize="30sp" />
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.32"
-            android:text="Title" />
+            android:text="@string/title" />
 
         <EditText
             android:id="@+id/editText"
@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.47"
-            android:text="Description" />
+            android:text="@string/description" />
 
         <EditText
             android:id="@+id/editText2"
@@ -75,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.47"
-            android:text="Creator" />
+            android:text="@string/creator" />
 
         <EditText
             android:id="@+id/editText3"
@@ -97,7 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.47"
-            android:text="Assigned To" />
+            android:text="@string/assigned_to" />
 
         <EditText
             android:id="@+id/editText4"
@@ -119,7 +119,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.47"
-            android:text="Due" />
+            android:text="@string/due" />
 
         <EditText
             android:id="@+id/editText5"
@@ -141,7 +141,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.47"
-            android:text="Tools" />
+            android:text="@string/tools" />
 
         <EditText
             android:id="@+id/editText6"
@@ -163,7 +163,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.47"
-            android:text="Reward" />
+            android:text="@string/reward" />
 
         <EditText
             android:id="@+id/editText7"
@@ -186,7 +186,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Assignee" />
+            android:text="@string/assignee" />
 
         <Spinner
             android:id="@+id/spinner"
@@ -206,7 +206,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Priority" />
+            android:text="@string/priority" />
 
         <Spinner
             android:id="@+id/spinner2"
@@ -225,7 +225,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Status" />
+            android:text="@string/status" />
 
         <Spinner
             android:id="@+id/spinner3"

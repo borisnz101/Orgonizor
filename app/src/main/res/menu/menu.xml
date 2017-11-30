@@ -4,6 +4,12 @@
     <group android:checkableBehavior="single">
 
         <item
+            android:id="@+id/logout"
+            android:checked="false"
+            android:icon="@drawable/placeholder"
+            android:title="@string/logout" />
+
+        <item
             android:id="@+id/switche"
             android:checked="false"
             android:icon="@drawable/placeholder"
@@ -15,34 +21,6 @@
             android:icon="@drawable/placeholder"
             android:title="@string/registernew" />
 
-        <item
-            android:id="@+id/sent_mail"
-            android:checked="false"
-            android:icon="@drawable/placeholder"
-            android:title="@string/placeholder" />
-
-        <item
-            android:id="@+id/drafts"
-            android:checked="false"
-            android:icon="@drawable/placeholder"
-            android:title="@string/placeholder" />
-
-
-        <item
-            android:id="@+id/allmail"
-            android:checked="false"
-            android:icon="@drawable/placeholder"
-            android:title="@string/placeholder" />
-        <item
-            android:id="@+id/trash"
-            android:checked="false"
-            android:icon="@drawable/placeholder"
-            android:title="@string/placeholder" />
-        <item
-            android:id="@+id/spam"
-            android:checked="false"
-            android:icon="@drawable/placeholder"
-            android:title="@string/placeholder" />
 
     </group>
 </menu>

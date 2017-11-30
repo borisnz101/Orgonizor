@@ -166,14 +166,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.20"
-                android:text="@string/admin" />
+                android:text="@string/is_admin" />
 
             <CheckBox
                 android:id="@+id/checkBox29"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Admin" />
+                android:text="@string/admin"
+                android:textAlignment="textStart" />
 
         </LinearLayout>
 
