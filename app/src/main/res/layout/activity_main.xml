@@ -41,7 +41,7 @@
                          android:visibility="invisible">
 
                         <RelativeLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
@@ -63,10 +63,9 @@
 
                         </RelativeLayout>
 
-                        <RelativeLayout
+                        <ScrollView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
+                            android:layout_height="180dp">
                             <GridLayout
                                 android:id="@+id/MaterialGrid"
                                 android:layout_width="match_parent"
@@ -121,20 +120,21 @@
                                     android:layout_height="wrap_content"
                                     android:text="Item 8" />
                             </GridLayout>
-                        </RelativeLayout>
+                        </ScrollView>
 
                         <RelativeLayout
                              android:layout_width="wrap_content"
                              android:layout_height="wrap_content"
                              android:orientation="vertical"
-                             android:layout_marginTop="100dp">
+                            >
 
                             <TextView
                                 android:id="@+id/textView3"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/groceries"
-                                android:textSize="30sp" />
+                                android:textSize="30sp"
+                                />
 
                             <ImageButton
                                 android:id="@+id/button3"
@@ -147,9 +147,9 @@
 
                          </RelativeLayout>
 
-                        <RelativeLayout
+                        <ScrollView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="180dp">
 
                             <GridLayout
                                 android:id="@+id/GroceGrid"
@@ -205,7 +205,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="Item 8" />
                             </GridLayout>
-                        </RelativeLayout>
+                        </ScrollView>
 
                     </LinearLayout>
                     <LinearLayout
@@ -264,7 +264,6 @@
                         </ScrollView>
 
                     </LinearLayout>
-
                     <LinearLayout
                         android:id="@+id/tab1"
                         android:layout_width="match_parent"
@@ -295,43 +294,45 @@
                                 android:background="@drawable/ic_add" />
 
                         </RelativeLayout>
-
-                        <GridLayout
-                            android:id="@+id/FridgeGrid"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:columnCount="3">
-
-                            <CheckBox
-                                android:id="@+id/checkBox9"
+                        <ScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="110dp">
+                            <GridLayout
+                                android:id="@+id/FridgeGrid"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Milk" />
+                                android:columnCount="3">
 
-                            <CheckBox
-                                android:id="@+id/checkBox10"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Egg" />
+                                <CheckBox
+                                    android:id="@+id/checkBox9"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Milk" />
 
-                            <CheckBox
-                                android:id="@+id/checkBox11"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Meat" />
+                                <CheckBox
+                                    android:id="@+id/checkBox10"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Egg" />
 
-                            <CheckBox
-                                android:id="@+id/checkBox12"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Bread" />
+                                <CheckBox
+                                    android:id="@+id/checkBox11"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Meat" />
 
-                        </GridLayout>
+                                <CheckBox
+                                    android:id="@+id/checkBox12"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Bread" />
+
+                            </GridLayout>
+                        </ScrollView>
 
                         <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="50dp"
                             android:orientation="vertical">
 
                             <TextView
@@ -353,42 +354,45 @@
 
                         </RelativeLayout>
 
-                        <GridLayout
-                            android:id="@+id/CupGrid"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:columnCount="3">
-
-                            <CheckBox
-                                android:id="@+id/checkBox13"
+                        <ScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="110dp">
+                            <GridLayout
+                                android:id="@+id/CupGrid"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Rice" />
+                                android:columnCount="3">
 
-                            <CheckBox
-                                android:id="@+id/checkBox14"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Salt and Pepper" />
+                                <CheckBox
+                                    android:id="@+id/checkBox13"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Rice" />
 
-                            <CheckBox
-                                android:id="@+id/checkBox15"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Flour" />
+                                <CheckBox
+                                    android:id="@+id/checkBox14"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Salt and Pepper" />
 
-                            <CheckBox
-                                android:id="@+id/checkBox16"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Pasta" />
+                                <CheckBox
+                                    android:id="@+id/checkBox15"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Flour" />
 
-                        </GridLayout>
+                                <CheckBox
+                                    android:id="@+id/checkBox16"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Pasta" />
+
+                            </GridLayout>
+                        </ScrollView>
 
                         <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="50dp"
                             android:orientation="vertical">
 
                             <TextView
@@ -410,37 +414,41 @@
 
                         </RelativeLayout>
 
-                        <GridLayout
-                            android:id="@+id/BroomCGrid"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:columnCount="3">
-
-                            <CheckBox
-                                android:id="@+id/checkBox17"
+                        <ScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="110dp">
+                            <GridLayout
+                                android:id="@+id/BroomCGrid"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Cleaner" />
+                                android:columnCount="3">
 
-                            <CheckBox
-                                android:id="@+id/checkBox18"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Broom" />
+                                <CheckBox
+                                    android:id="@+id/checkBox17"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Cleaner" />
 
-                            <CheckBox
-                                android:id="@+id/checkBox19"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Toilet paper" />
+                                <CheckBox
+                                    android:id="@+id/checkBox18"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Broom" />
 
-                            <CheckBox
-                                android:id="@+id/checkBox20"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Item 4" />
+                                <CheckBox
+                                    android:id="@+id/checkBox19"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Toilet paper" />
 
-                        </GridLayout>
+                                <CheckBox
+                                    android:id="@+id/checkBox20"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Item 4" />
+
+                            </GridLayout>
+                        </ScrollView>
 
                     </LinearLayout>
 
