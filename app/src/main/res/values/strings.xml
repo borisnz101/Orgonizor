@@ -38,7 +38,14 @@
     <string name="my_tasks">Only show my tasks</string>
     <string name="logout">Logout</string>
     <string name="confirm">Confirm Allocation</string>
+    <string name="duration">Duration</string>
     <string name="accept">Accept</string>
     <string name="taskcomplete">Task Completed</string>
     <string name="confirm_description">Task "this.task.getTitle()" will be assigned to you.</string> //TODO //I dont know how to how to add the task name
+    <string-array name="priority">
+        <item>URGENT</item>
+        <item>IMPORTANT</item>
+        <item>NORAMAL</item>
+        <item>NOT_URGENT</item>
+    </string-array>
 </resources>

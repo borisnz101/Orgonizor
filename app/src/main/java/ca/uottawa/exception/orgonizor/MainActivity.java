@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
     private DBHandler db;
+    private HashMap<String, Integer> priorite;
     //private String newItem;
 
     @Override
@@ -48,6 +51,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
         db = new DBHandler(this);
+        priorite = new HashMap<String, Integer>();
+        priorite.put("URGENT", 3);
+        priorite.put("IMPORTANT", 2);
+        priorite.put("NORAMAL", 1);
+        priorite.put("NOT_URGENT", 0);
 
         setupDrawer();
 
@@ -193,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         title.setText(task.getTitle());
 
         TextView id = (TextView) layout2.findViewById(R.id.taskid);
-        id.setText(task.getId());
+        id.setText(task.getId()+"");
 
         CheckBox chk = (CheckBox) layout2.findViewById(R.id.taskComplete);
 
@@ -246,13 +254,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myDialog = new Dialog(this);
         myDialog.setContentView(R.layout.addtask_popup);
         myDialog.setCancelable(cancelable);
-        Button login = (Button) myDialog.findViewById(R.id.login);
-        String taskTitle = myDialog.findViewById(R.id.editText).toString();
-        String taskDescription = myDialog.findViewById(R.id.editText2).toString();
 
         final Spinner assignee= (Spinner) myDialog.findViewById(R.id.spinner);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, db.getUsers());
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+        assignee.setAdapter(spinnerArrayAdapter);
         final Spinner priority= (Spinner) myDialog.findViewById(R.id.spinner2);
-        final Spinner status= (Spinner) myDialog.findViewById(R.id.spinner3);
+        ArrayAdapter<String> spinnerCountShoesArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.priority));
+        priority.setAdapter(spinnerCountShoesArrayAdapter);
+
+        final EditText due = (EditText) myDialog.findViewById(R.id.dueDate);
 
         Button submit = (Button) myDialog.findViewById(R.id.addtaskbutton);
 
@@ -262,14 +273,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 String taskAssignee = assignee.getSelectedItem().toString();
-                int taskPriority = Integer.parseInt(priority.getSelectedItem().toString());
-                int taskStatus = Integer.parseInt(status.getSelectedItem().toString());
+                String taskPriority = priority.getSelectedItem().toString();
+                String taskTitle = myDialog.findViewById(R.id.editText).toString();
+                String taskDescription = myDialog.findViewById(R.id.editText2).toString();
+                String taskDuration = myDialog.findViewById(R.id.editText4).toString();
+                String taskReward = myDialog.findViewById(R.id.editText7).toString();
+                int status = 1;
+                User use;
+                //User aAssignedTo, User aCreator, String aDue, String aDuration, int aPriority, StorageUnit aTools, int aStatus, String aTitle, String aDescription, int aId, String aReward
+                if(taskAssignee.equals("Unassigned")){
+                    status = 0;
+                    use = null;
+                }else{
+                    use = db.getUser(taskAssignee);
+                }
+                Task task = new Task(use, logged, due.getText().toString(), taskDuration, priorite.get(taskPriority), null, status, taskTitle, taskDescription, -1, taskReward);
+                task = db.addTask(task);
+                addTaskToView(task);
             }
         });
 
 
         final Calendar myCalendar = Calendar.getInstance();
-        final EditText due = (EditText) myDialog.findViewById(R.id.dueDate);
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
             @Override

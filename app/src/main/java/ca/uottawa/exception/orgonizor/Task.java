@@ -42,7 +42,7 @@ public class Task {
   private int status;
   private String title;
   private String description;
-  private int id;
+  private long id;
   private String reward;
 
   //Task Associations
@@ -145,7 +145,7 @@ public class Task {
     return wasSet;
   }
 
-  public boolean setId(int aId)
+  public boolean setId(long aId)
   {
     boolean wasSet = false;
     id = aId;
@@ -206,7 +206,7 @@ public class Task {
     return description;
   }
 
-  public int getId()
+  public long getId()
   {
     return id;
   }

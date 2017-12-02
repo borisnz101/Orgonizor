@@ -39,16 +39,17 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
-        + KEY_ID + " INTEGER PRIMARY KEY,username TEXT, password TEXT, name TEXT, accessLevel INTEGER" + ")";
+        + KEY_ID + " INTEGER PRIMARY KEY autoincrement,username TEXT, password TEXT, name TEXT, accessLevel INTEGER" + ")";
         db.execSQL(CREATE_USER_TABLE);
         String CREATE_TASK_TABLE = "CREATE TABLE " + TABLE_USER + "("
-                + KEY_ID + " INTEGER PRIMARY KEY, assignedto INTEGER, creator INTEGER, due TEXT, duration TEXT, priority INTEGER, tools INTEGER, status INTEGER, title TEXT, description TEXT, id INTEGER, reward TEXT" + ")";
+                + KEY_ID + " INTEGER PRIMARY KEY autoincrement, assignedto INTEGER, creator INTEGER, due TEXT, duration TEXT, priority INTEGER, tools INTEGER, status INTEGER, title TEXT, description TEXT, id INTEGER, reward TEXT" + ")";
         db.execSQL(CREATE_TASK_TABLE);
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASK);
         // Creating tables again
         onCreate(db);
     }
@@ -67,7 +68,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     //User aAssignedTo, User aCreator, String aDue, String aDuration, Priority aPriority, StorageUnit aTools, Status aStatus, String aTitle, String aDescription, int aId, String aReward
-    public void addTask(Task task){
+    public Task addTask(Task task){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("assignedto", task.getAssignedTo().getId()); // Shop Name
@@ -79,14 +80,14 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put("status", task.getStatus());
         values.put("title", task.getTitle());
         values.put("description", task.getDescription());
-        values.put("id", task.getId());
         values.put("reward", task.getReward());
         //values.put("name", name);
         //values.put("accessLevel", accessLevel);
         // Inserting Row
-        db.insert(TABLE_TASK, null, values);
+        long id = db.insert(TABLE_TASK, null, values);
+        task.setId(id);
         db.close(); // Closing database connection
-
+        return task;
     }
 
     //TODO complete
@@ -147,11 +148,40 @@ public class DBHandler extends SQLiteOpenHelper {
         return false;
     }
 
+    public String[] getUsers(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Inserting Rowx
+        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_USER, null);
+        int dot = c.getCount();
+        String[] users = new String[dot+1];
+        for(int i = 1; i < dot+1; i++){
+            c.moveToNext();
+            users[i] = c.getString(1);
+        }
+        users[0] = "Unassigned";
+        db.close(); // Closing database connection
+        return users;
+    }
+
     public User getUser(int id){
         SQLiteDatabase db = this.getReadableDatabase();
         // Inserting Rowx
         Cursor c = db.query(TABLE_USER, new String[]{"username", "name", "accessLevel", KEY_ID}
                 , "id = ?" ,new String[]{id+""}, null, null, null);
+        int dot = c.getCount();
+        db.close(); // Closing database connection
+        if(dot > 0){
+            c.moveToNext();
+            return new User(c.getInt(3), c.getString(1), c.getString(0), c.getInt(2) == 1 ? true : false, null);
+        }
+        return null;
+    }
+
+    public User getUser(String name){
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Inserting Rowx
+        Cursor c = db.query(TABLE_USER, new String[]{"username", "name", "accessLevel", KEY_ID}
+                , "username = ?" ,new String[]{name}, null, null, null);
         int dot = c.getCount();
         db.close(); // Closing database connection
         if(dot > 0){
