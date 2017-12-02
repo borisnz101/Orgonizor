@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
@@ -160,10 +161,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
-
         //uncomment to delete the database for testing
         //db.onUpgrade(db.getWritableDatabase(),0,0);
+
+        //add all tasks from the db to the view
+        ArrayList<Task> tasks = db.getTasks();
+
+        for(Task task : tasks){
+            System.out.println("ID: " + task.getId());
+            addTaskToView(task);
+        }
+
         if (!db.usersExist()) {
             callRegisterDialog(true, false);
         } else if (!loggedIn) {
@@ -203,14 +211,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView id = (TextView) layout2.findViewById(R.id.taskid);
         id.setText(task.getId()+"");
 
-        CheckBox chk = (CheckBox) layout2.findViewById(R.id.taskComplete);
+        final CheckBox chk = (CheckBox) layout2.findViewById(R.id.taskComplete);
 
         chk.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                list.removeView(layout2);
-                Toast.makeText(getApplication().getBaseContext(), R.string.taskcomplete, Toast.LENGTH_SHORT).show();
+                TextView id = (TextView) layout2.findViewById(R.id.taskid);
+                int iden = Integer.parseInt(id.getText().toString());
+                if(logged.getIsParent() || db.getTask(iden).getAssignedTo().getId() == logged.getId()) {
+                    db.removeTask(iden);
+                    list.removeView(layout2);
+                    Toast.makeText(getApplication().getBaseContext(), R.string.taskcomplete, Toast.LENGTH_SHORT).show();
+                }else{
+                    chk.setChecked(false);
+                    Toast.makeText(getApplication().getBaseContext(), R.string.tasknotremovednoperm, Toast.LENGTH_SHORT).show();
+                }
             }
         });
         list.addView(layout2);
@@ -274,10 +290,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // TODO Auto-generated method stub
                 String taskAssignee = assignee.getSelectedItem().toString();
                 String taskPriority = priority.getSelectedItem().toString();
-                String taskTitle = myDialog.findViewById(R.id.editText).toString();
-                String taskDescription = myDialog.findViewById(R.id.editText2).toString();
-                String taskDuration = myDialog.findViewById(R.id.editText4).toString();
-                String taskReward = myDialog.findViewById(R.id.editText7).toString();
+                String taskTitle = ((EditText)myDialog.findViewById(R.id.editText)).getText().toString();
+                String taskDescription = ((EditText)myDialog.findViewById(R.id.editText2)).getText().toString();
+                String taskDuration = ((EditText)myDialog.findViewById(R.id.editText4)).getText().toString();
+                String taskReward = ((EditText)myDialog.findViewById(R.id.editText7)).getText().toString();
                 int status = 1;
                 User use;
                 //User aAssignedTo, User aCreator, String aDue, String aDuration, int aPriority, StorageUnit aTools, int aStatus, String aTitle, String aDescription, int aId, String aReward
@@ -287,9 +303,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }else{
                     use = db.getUser(taskAssignee);
                 }
-                Task task = new Task(use, logged, due.getText().toString(), taskDuration, priorite.get(taskPriority), null, status, taskTitle, taskDescription, -1, taskReward);
+                Task task = new Task(use, logged, due.getText().toString(), taskDuration, priorite.get(taskPriority), new StorageUnit(1), status, taskTitle, taskDescription, -1, taskReward);
                 task = db.addTask(task);
                 addTaskToView(task);
+                myDialog.dismiss();
             }
         });
 
@@ -414,7 +431,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else {
                     //no errors, we are good to add this user to the DB
                     //the DBHandler takes care of hashing for us, we don't have to worry
-                    db.addUser(user.getText().toString(), password.getText().toString(), name.getText().toString(), 1); //access level 1 is admin
+                    CheckBox admin = (CheckBox) myDialog.findViewById(R.id.checkBox29);
+                    int accessLevel = admin.isChecked() ? 1 : 0;
+                    db.addUser(user.getText().toString(), password.getText().toString(), name.getText().toString(), accessLevel); //access level determined by the little check box
 
                     //code to autoLogin if this is the first time someone registers
                     if (firstUser) {

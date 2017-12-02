@@ -41,8 +41,8 @@ public class DBHandler extends SQLiteOpenHelper {
         String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
         + KEY_ID + " INTEGER PRIMARY KEY autoincrement,username TEXT, password TEXT, name TEXT, accessLevel INTEGER" + ")";
         db.execSQL(CREATE_USER_TABLE);
-        String CREATE_TASK_TABLE = "CREATE TABLE " + TABLE_USER + "("
-                + KEY_ID + " INTEGER PRIMARY KEY autoincrement, assignedto INTEGER, creator INTEGER, due TEXT, duration TEXT, priority INTEGER, tools INTEGER, status INTEGER, title TEXT, description TEXT, id INTEGER, reward TEXT" + ")";
+        String CREATE_TASK_TABLE = "CREATE TABLE " + TABLE_TASK + "("
+                + KEY_ID + " INTEGER PRIMARY KEY autoincrement, assignedto INTEGER, creator INTEGER, due TEXT, duration TEXT, priority INTEGER, tools INTEGER, status INTEGER, title TEXT, description TEXT, reward TEXT" + ")";
         db.execSQL(CREATE_TASK_TABLE);
     }
     @Override
@@ -62,9 +62,31 @@ public class DBHandler extends SQLiteOpenHelper {
         int dot = c.getCount();
         db.close(); // Closing database connection
         while(c.moveToNext()){
-            tasks.add(new Task(getUser(c.getInt(1)), getUser(c.getInt(2)), c.getString(3), c.getString(4), c.getInt(5), getStorageUnit(c.getInt(6)), c.getInt(7), c.getString(8), c.getString(9), c.getInt(10), c.getString(11)));
+            tasks.add(new Task(getUser(c.getInt(1)), getUser(c.getInt(2)), c.getString(3), c.getString(4), c.getInt(5), getStorageUnit(c.getInt(6)), c.getInt(7), c.getString(8), c.getString(9), c.getInt(0), c.getString(10)));
         }
         return tasks;
+    }
+
+    public Task getTask(int id){
+        Task task = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        //get data
+        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_TASK + " WHERE id = " + id, null);
+        int dot = c.getCount();
+        db.close(); // Closing database connection
+        while(c.moveToNext()){
+            task = new Task(getUser(c.getInt(1)), getUser(c.getInt(2)), c.getString(3), c.getString(4), c.getInt(5), getStorageUnit(c.getInt(6)), c.getInt(7), c.getString(8), c.getString(9), c.getInt(0), c.getString(10));
+        }
+        return task;
+    }
+
+    public void removeTask(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        //get data
+        Cursor c = db.rawQuery("DELETE FROM " + TABLE_TASK + " WHERE id = " + id , null);
+        System.out.println("DELETE FROM " + TABLE_TASK + " WHERE id = " + id);
+        System.out.println("Deleted: " + c.getCount());
+        db.close(); // Closing database connection
     }
 
     //User aAssignedTo, User aCreator, String aDue, String aDuration, Priority aPriority, StorageUnit aTools, Status aStatus, String aTitle, String aDescription, int aId, String aReward
