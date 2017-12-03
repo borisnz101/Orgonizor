@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-// line 30 "model.ump"
-// line 76 "model.ump"
+
 public class User {
 
   //------------------------
@@ -327,21 +326,23 @@ public class User {
     }
   }
 
-  // line 40 "model.ump"
+  /* Constructor does the job
    public void createUser(String name, String username, boolean isParent, Image profilePic){
     
-  }
+  }*/
 
-  // line 41 "model.ump"
+  
    public void deleteUser(User username){
     
 	   username = null;
   }
 
-  // line 42 "model.ump"
+  /* Seems useless to me
+   * 
    public void login(String username, String password){
-    
+	   
   }
+  */
 
 
   public String toString()

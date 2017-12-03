@@ -43,7 +43,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String mActivityTitle;
     private DBHandler db;
     private HashMap<String, Integer> priorite;
-    //private String newItem;
+    StorageUnit fridge = new StorageUnit(1);
+    StorageUnit cup = new StorageUnit(2);
+    StorageUnit broomC = new StorageUnit(3);
+    StorageUnit material = new StorageUnit(4);
+    StorageUnit groce = new StorageUnit(5);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         priorite = new HashMap<String, Integer>();
         priorite.put("URGENT", 3);
         priorite.put("IMPORTANT", 2);
-        priorite.put("NORAMAL", 1);
+        priorite.put("NORMAL", 1);
         priorite.put("NOT_URGENT", 0);
 
         setupDrawer();
@@ -112,7 +116,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        // I will fixe all the issues later
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -296,7 +299,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 String taskReward = ((EditText)myDialog.findViewById(R.id.editText7)).getText().toString();
                 int status = 1;
                 User use;
-                //User aAssignedTo, User aCreator, String aDue, String aDuration, int aPriority, StorageUnit aTools, int aStatus, String aTitle, String aDescription, int aId, String aReward
                 if(taskAssignee.equals("Unassigned")){
                     status = 0;
                     use = null;
@@ -339,10 +341,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        //Task newTask = new Task(User aAssignedTo, User aCreator, String aDue, String aDuration,
-        //int aPriority, StorageUnit aTools, int aStatus, String aTitle, String aDescription, int aId, String aReward);
-        //StoredItem.addTask(newTask); change to public
-
 
         myDialog.show();
 
@@ -357,19 +355,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // StorageUnit.addStoredItem(newItem); change to public and save all the items in the DB
                 EditText editT = (EditText) myDialog.findViewById(R.id.editText);
-                String newItem = editT.getText().toString();
+                String itemName = editT.getText().toString();
                 CheckBox itemAdded = new CheckBox(MainActivity.this);
-                itemAdded.setText(newItem);
+                if (itemAdded.isChecked()) {
+                    switch(grid.toString()){
+                        case "fridGrid":
+                            StoredItem fridItem= new StoredItem(itemName, fridge);
+                            fridge.addStoredItem(fridItem);
+                        case "cupGrid":
+                            StoredItem cupItem= new StoredItem(itemName, cup);
+                            fridge.addStoredItem(cupItem);
+                        case "broomCGrid":
+                            StoredItem broomCItem= new StoredItem(itemName, broomC);
+                            fridge.addStoredItem(broomCItem);
+                        case "materialGrid":
+                            StoredItem materialItem= new StoredItem(itemName, material);
+                            fridge.addStoredItem(materialItem);
+                        case "groceGrid":
+                            StoredItem groceItem= new StoredItem(itemName, groce);
+                            fridge.addStoredItem(groceItem);
+                    }
+                }
+                itemAdded.setText(itemName);
                 grid.addView(itemAdded);
-                myDialog.dismiss();
-            }
-        });
-        Button cancel = (Button) myDialog.findViewById(R.id.buttonCancel);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 myDialog.dismiss();
             }
         });

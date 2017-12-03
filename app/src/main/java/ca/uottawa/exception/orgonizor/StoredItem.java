@@ -24,6 +24,17 @@ public class StoredItem {
   // CONSTRUCTOR
   //------------------------
 
+    public StoredItem(String aName, StorageUnit aStorageUnit)
+    {
+        name = aName;
+        tasks = new ArrayList<Task>();
+        boolean didAddStorageUnit = setStorageUnit(aStorageUnit);
+        if (!didAddStorageUnit)
+        {
+            throw new RuntimeException("Unable to create storedItem due to storageUnit");
+        }
+    }
+
   public StoredItem(String aName, String aDescription, int aId, StorageUnit aStorageUnit)
   {
     name = aName;
@@ -166,7 +177,7 @@ public class StoredItem {
   }
 
   public boolean addTaskAt(Task aTask, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addTask(aTask))
     {
@@ -189,8 +200,8 @@ public class StoredItem {
       tasks.remove(aTask);
       tasks.add(index, aTask);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addTaskAt(aTask, index);
     }
