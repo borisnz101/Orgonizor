@@ -289,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }else{
                     use = db.getUser(taskAssignee);
                 }
-                Task task = new Task(use, logged, due.getText().toString(), taskDuration, priorite.get(taskPriority), null, status, taskTitle, taskDescription, -1, taskReward);
+                Task task = new Task(use, logged, due.getText().toString(), taskDuration, priorite.get(taskPriority), new StorageUnit(1), status, taskTitle, taskDescription, -1, taskReward);
                 task = db.addTask(task);
                 addTaskToView(task);
             }
