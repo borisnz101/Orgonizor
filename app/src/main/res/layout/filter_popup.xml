@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <CheckBox
+                android:id="@+id/checkPriority"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Priority" />
+            <CheckBox
+                android:id="@+id/checkDuration"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Duration" />
+            <CheckBox
+                android:id="@+id/checkDate"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Date" />
+            <CheckBox
+                android:id="@+id/checkReward"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Reward"/>
+            <CheckBox
+                android:id="@+id/checkStatus"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Status"/>
+            <RadioGroup
+                android:id="@+id/filterUser"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <Button
+                android:id="@+id/FilterButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filter"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>
