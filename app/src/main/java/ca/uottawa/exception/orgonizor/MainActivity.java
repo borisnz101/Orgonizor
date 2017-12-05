@@ -172,7 +172,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         for(Task task : tasks){
             System.out.println("ID: " + task.getId());
-            addTaskToView(task);
+            if(task.getStatus() != Task.Status.COMPLETED.getValue()) {
+                addTaskToView(task);
+            }
         }
 
         if (!db.usersExist()) {

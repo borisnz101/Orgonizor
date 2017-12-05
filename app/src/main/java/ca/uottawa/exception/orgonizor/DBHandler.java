@@ -83,8 +83,8 @@ public class DBHandler extends SQLiteOpenHelper {
     public void removeTask(int id){
         SQLiteDatabase db = this.getReadableDatabase();
         //get data
-        Cursor c = db.rawQuery("DELETE FROM " + TABLE_TASK + " WHERE id = " + id , null);
-        System.out.println("DELETE FROM " + TABLE_TASK + " WHERE id = " + id);
+        Cursor c = db.rawQuery("UPDATE " + TABLE_TASK + " SET status = 2 WHERE id = " + id , null);
+        System.out.println("UPDATE " + TABLE_TASK + " SET status = 2 WHERE id = " + id);
         System.out.println("Deleted: " + c.getCount());
         db.close(); // Closing database connection
     }
