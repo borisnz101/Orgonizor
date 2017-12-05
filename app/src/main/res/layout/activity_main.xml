@@ -32,7 +32,6 @@
                     android:id="@android:id/tabcontent"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
-
                     <LinearLayout
                          android:id="@+id/tab3"
                          android:layout_width="match_parent"
@@ -238,15 +237,16 @@
                                 android:text="@string/new_task"
                                 android:textSize="20sp" />
 
-                            <Switch
-                                android:id="@+id/switch1"
+                            <Button
+                                android:id="@+id/Filter"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignBaseline="@+id/addtask"
                                 android:layout_alignBottom="@+id/addtask"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentRight="true"
-                                android:text="@string/my_tasks" />
+                                android:text="Filter by"
+                                android:textSize="10sp" />
 
                         </RelativeLayout>
 

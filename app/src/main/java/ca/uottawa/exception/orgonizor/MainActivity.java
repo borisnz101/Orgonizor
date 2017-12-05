@@ -20,6 +20,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -156,11 +158,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //callAddTask(true); // Maybe we should use the same with Task argument?
             }
         });*/
-        findViewById(R.id.switch1).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.Filter).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //hideTask(User);
-                // TODO implement hideTask
+                callFilter();
             }
         });
 
@@ -456,6 +457,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+    }
+
+    private void callFilter() {
+        myDialog = new Dialog(this);
+        myDialog.setContentView(R.layout.filter_popup);
+        myDialog.show();
+
+        final CheckBox priority = myDialog.findViewById(R.id.checkPriority);
+        final RadioGroup user = myDialog.findViewById(R.id.filterUser);
+        final CheckBox duration = myDialog.findViewById(R.id.checkDuration);
+        final CheckBox date = myDialog.findViewById(R.id.checkDate);
+        final CheckBox reward = myDialog.findViewById(R.id.checkReward);
+        final CheckBox status = myDialog.findViewById(R.id.checkStatus);
+        RadioButton button;
+        for(int i = 0; i < db.getUsers().length; i++) {
+            button = new RadioButton(this);
+            button.setText(db.getUsers()[i]);
+            user.addView(button);
+        }
+
+        Button filter = (Button) myDialog.findViewById(R.id.FilterButton);
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //filterTasks(priority.isChecked(), user.isChecked(), duration.isChecked(), date.isChecked(), reward.isChecked(), status.isChecked());
+                myDialog.dismiss();
+            }
+        });
     }
 
     @Override
