@@ -20,12 +20,6 @@
             android:layout_toEndOf="@+id/taskid" />
 
         <TextView
-            android:id="@+id/taskid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible" />
-
-        <TextView
             android:id="@+id/TaskTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,6 +41,13 @@
             android:layout_gravity="center"
             android:background="@drawable/ic_add"
             android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/taskid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+
 
         <CheckBox
             android:id="@+id/taskComplete"

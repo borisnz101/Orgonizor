@@ -16,7 +16,7 @@ public class Task {
   private String due;
   private String duration;
   public enum Priority{
-    URGENT(3), IMPORTANT(2), NORAMAL(1), NOT_URGENT(0);
+    URGENT(3), IMPORTANT(2), NORMAL(1), NOT_URGENT(0);
       private final int value;
       Priority(int value) {
           this.value = value;
