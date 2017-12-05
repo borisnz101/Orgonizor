@@ -93,7 +93,11 @@ public class DBHandler extends SQLiteOpenHelper {
     public Task addTask(Task task){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("assignedto", task.getAssignedTo().getId()); // Shop Name
+        if(task.getAssignedTo() == null){
+            values.put("assignedto", -1);
+        }else {
+            values.put("assignedto", task.getAssignedTo().getId());
+        }
         values.put("creator", task.getCreator().getId());
         values.put("due", task.getDue());
         values.put("duration", task.getDuration());
