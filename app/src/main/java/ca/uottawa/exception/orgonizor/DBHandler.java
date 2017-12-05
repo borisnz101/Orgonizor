@@ -29,6 +29,7 @@ public class DBHandler extends SQLiteOpenHelper {
     // Contacts table name
     private static final String TABLE_USER = "users";
     private static final String TABLE_TASK = "tasks";
+    private static final String TABLE_STORAGE = "storage";
     // Shops Table Columns names
     private static final String KEY_ID = "id";
 
@@ -44,15 +45,27 @@ public class DBHandler extends SQLiteOpenHelper {
         String CREATE_TASK_TABLE = "CREATE TABLE " + TABLE_TASK + "("
                 + KEY_ID + " INTEGER PRIMARY KEY autoincrement, assignedto INTEGER, creator INTEGER, due TEXT, duration TEXT, priority INTEGER, tools INTEGER, status INTEGER, title TEXT, description TEXT, reward TEXT" + ")";
         db.execSQL(CREATE_TASK_TABLE);
+        String CREATE_STORAGE_TABLE = "CREATE TABLE " + TABLE_STORAGE + "("
+                + KEY_ID + " INTEGER PRIMARY KEY autoincrement, name TEXT, storageid INTEGER" + ")";
+        db.execSQL(CREATE_STORAGE_TABLE);
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASK);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_STORAGE);
         // Creating tables again
         onCreate(db);
     }
+
+    //getStorage(int id) 1 2 3 4 5
+
+    //switch(String name, int from, int to)
+
+    //add(String, int storage)
+
+    //remove(String, int storage)
 
     public ArrayList<Task> getTasks(){
         ArrayList<Task> tasks = new ArrayList<Task>();

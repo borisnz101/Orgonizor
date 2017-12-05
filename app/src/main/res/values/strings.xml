@@ -41,6 +41,7 @@
     <string name="duration">Duration</string>
     <string name="accept">Accept</string>
     <string name="taskcomplete">Task Completed</string>
+    <string name="filterbyuser">User</string>
     <string name="confirm_description">Task "this.task.getTitle()" will be assigned to you.</string> //TODO //I dont know how to how to add the task name
     <string name="tasknotremovednoperm">No permission to edit that task!</string>
     <string-array name="priority">
@@ -48,5 +49,11 @@
         <item>IMPORTANT</item>
         <item>NORAMAL</item>
         <item>NOT_URGENT</item>
+    </string-array>
+    <string-array name="filters">
+        <item>No filter</item>
+        <item>Date</item>
+        <item>Priority</item>
+        <item>Status</item>
     </string-array>
 </resources>

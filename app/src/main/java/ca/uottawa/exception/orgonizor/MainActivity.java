@@ -20,8 +20,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -29,8 +27,10 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -464,20 +464,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void callFilter() {
         myDialog = new Dialog(this);
         myDialog.setContentView(R.layout.filter_popup);
-        myDialog.show();
+        final Spinner assignee= (Spinner) myDialog.findViewById(R.id.selectUser);
+        List<String> users = new ArrayList<String>(Arrays.asList(db.getUsers()));
+        users.add(0, "None");
 
-        final CheckBox priority = myDialog.findViewById(R.id.checkPriority);
-        final RadioGroup user = myDialog.findViewById(R.id.filterUser);
-        final CheckBox duration = myDialog.findViewById(R.id.checkDuration);
-        final CheckBox date = myDialog.findViewById(R.id.checkDate);
-        final CheckBox reward = myDialog.findViewById(R.id.checkReward);
-        final CheckBox status = myDialog.findViewById(R.id.checkStatus);
-        RadioButton button;
-        for(int i = 0; i < db.getUsers().length; i++) {
-            button = new RadioButton(this);
-            button.setText(db.getUsers()[i]);
-            user.addView(button);
-        }
+        String[] useres = new String[users.size()];
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, users.toArray(useres));
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+        assignee.setAdapter(spinnerArrayAdapter);
+
+        final Spinner filtere= (Spinner) myDialog.findViewById(R.id.selectFilter);
+        ArrayAdapter<String> spinnerCountShoesArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.filters));
+        filtere.setAdapter(spinnerCountShoesArrayAdapter);
+        myDialog.show();
 
         Button filter = (Button) myDialog.findViewById(R.id.FilterButton);
         filter.setOnClickListener(new View.OnClickListener() {
@@ -487,6 +486,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 myDialog.dismiss();
             }
         });
+    }
+
+    public void filterTasks(String user, String filter){
+        String filterString = "";
+        boolean added = false;
+        if(!user.equals("None")){
+            User usere = db.getUser(user);
+            filterString += "assignedto = " + usere.getId();
+            added = true;
+        }
+
+        
     }
 
     @Override
