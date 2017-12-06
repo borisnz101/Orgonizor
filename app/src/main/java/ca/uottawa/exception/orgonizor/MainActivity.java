@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         //uncomment to delete the database for testing
-        //db.onUpgrade(db.getWritableDatabase(),0,0);
+        db.onUpgrade(db.getWritableDatabase(),0,0);
 
         //add all tasks from the db to the view
         ArrayList<Task> tasks = db.getTasks();
@@ -367,6 +367,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     loggedIn = true;
                     TextView nameField = (TextView) mDrawerLayout.findViewById(R.id.nameField);
                     nameField.setText(usere.getName());
+                    TextView pointField = mDrawerLayout.findViewById(R.id.points);
+                    pointField.setText(String.valueOf(usere.getPoints()));
                     myDialog.dismiss();
                 }
             }
@@ -428,6 +430,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myDialog.setContentView(R.layout.addtask_popup);
         myDialog.setCancelable(cancelable);
 
+        final TextView message = myDialog.findViewById(R.id.alert);
+        message.setVisibility(View.INVISIBLE);
         final Spinner assignee= (Spinner) myDialog.findViewById(R.id.spinner);
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, db.getUsers());
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
@@ -451,6 +455,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 String taskDescription = ((EditText)myDialog.findViewById(R.id.editText2)).getText().toString();
                 String taskDuration = ((EditText)myDialog.findViewById(R.id.editText4)).getText().toString();
                 String taskReward = ((EditText)myDialog.findViewById(R.id.editText7)).getText().toString();
+
+                //bunch of input validation
+                boolean rewardIsNumber = taskReward.matches("-?\\d+(\\.\\d+)?");
+                if(taskTitle.length() < 1){
+                    message.setText("Username must have a greater length than 0!");
+                    message.setVisibility(View.VISIBLE);
+                }
+
                 int status = 1;
                 User use;
                 if(taskAssignee.equals("Unassigned")){
@@ -626,6 +638,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     message.setVisibility(View.VISIBLE);
                 } else if (c) {
                     message.setText("Name can not contain special characters!");
+                    message.setVisibility(View.VISIBLE);
+                } else if(user.getText().toString().equalsIgnoreCase("Unassigned")){
+                    message.setText("Username is reserved for system use!");
                     message.setVisibility(View.VISIBLE);
                 } else {
                     //no errors, we are good to add this user to the DB

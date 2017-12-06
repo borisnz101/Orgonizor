@@ -171,7 +171,6 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         //get data
         Cursor c = db.rawQuery("UPDATE " + TABLE_USER + " SET points = " + points + " WHERE id = " + user.getId() , null);
-        System.out.println("Deleted: " + c.getCount());
         db.close(); // Closing database connection
     }
 
@@ -204,7 +203,7 @@ public class DBHandler extends SQLiteOpenHelper {
             e.printStackTrace();
         }
         // Inserting Rowx
-        Cursor c = db.query(TABLE_USER, new String[]{"username", "name", "accessLevel", KEY_ID}
+        Cursor c = db.query(TABLE_USER, new String[]{"username", "name", "accessLevel", KEY_ID, "points"}
                 , "username = ? AND password = ?" ,new String[]{user, pass}, null, null, null);
         int dot = c.getCount();
         db.close(); // Closing database connection
@@ -249,7 +248,7 @@ public class DBHandler extends SQLiteOpenHelper {
             return new User(-1, "Unassigned", "Unassigned", false, null, 0);
         }
         // Inserting Rowx
-        Cursor c = db.query(TABLE_USER, new String[]{"username", "name", "accessLevel", KEY_ID}
+        Cursor c = db.query(TABLE_USER, new String[]{"username", "name", "accessLevel", KEY_ID, "points"}
                 , "id = ?" ,new String[]{id+""}, null, null, null);
         int dot = c.getCount();
         db.close(); // Closing database connection
@@ -263,7 +262,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public User getUser(String name){
         SQLiteDatabase db = this.getReadableDatabase();
         // Inserting Rowx
-        Cursor c = db.query(TABLE_USER, new String[]{"username", "name", "accessLevel", KEY_ID}
+        Cursor c = db.query(TABLE_USER, new String[]{"username", "name", "accessLevel", KEY_ID, "points"}
                 , "username = ?" ,new String[]{name}, null, null, null);
         int dot = c.getCount();
         db.close(); // Closing database connection
