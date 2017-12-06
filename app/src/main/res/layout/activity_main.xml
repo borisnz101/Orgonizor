@@ -94,30 +94,6 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Detergent" />
-
-                                <CheckBox
-                                    android:id="@+id/checkBox5"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Item 5" />
-
-                                <CheckBox
-                                    android:id="@+id/checkBox6"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Item 6" />
-
-                                <CheckBox
-                                    android:id="@+id/checkBox7"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Item 7" />
-
-                                <CheckBox
-                                    android:id="@+id/checkBox8"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Item 8" />
                             </GridLayout>
                         </ScrollView>
 
@@ -191,18 +167,6 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Fish" />
-
-                                <CheckBox
-                                    android:id="@+id/checkBox27"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Item 7" />
-
-                                <CheckBox
-                                    android:id="@+id/checkBox28"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Item 8" />
                             </GridLayout>
                         </ScrollView>
 
@@ -445,7 +409,7 @@
                                     android:id="@+id/checkBox20"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Item 4" />
+                                    android:text="Detergent" />
 
                             </GridLayout>
                         </ScrollView>
