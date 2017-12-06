@@ -14,6 +14,7 @@ public class User {
   //------------------------
 
   //User Attributes
+  private int points;
   private String name;
   private String username;
   private boolean isParent;
@@ -28,7 +29,7 @@ public class User {
   // CONSTRUCTOR
   //------------------------
 
-  public User(int id, String aName, String aUsername, boolean aIsParent, Image aAvatar)
+  public User(int id, String aName, String aUsername, boolean aIsParent, Image aAvatar, int points)
   {
     this.id = id;
     name = aName;
@@ -37,6 +38,7 @@ public class User {
     avatar = aAvatar;
     storageUnits = new ArrayList<StorageUnit>();
     tasks = new ArrayList<Task>();
+    this.points = points;
   }
 
   //------------------------
@@ -93,6 +95,10 @@ public class User {
   public Image getAvatar()
   {
     return avatar;
+  }
+
+  public int getPoints() {
+      return points;
   }
 
   public int getId(){

@@ -40,7 +40,7 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
-        + KEY_ID + " INTEGER PRIMARY KEY autoincrement,username TEXT, password TEXT, name TEXT, accessLevel INTEGER" + ")";
+        + KEY_ID + " INTEGER PRIMARY KEY autoincrement,username TEXT, password TEXT, name TEXT, accessLevel INTEGER, points INTEGER" + ")";
         db.execSQL(CREATE_USER_TABLE);
         String CREATE_TASK_TABLE = "CREATE TABLE " + TABLE_TASK + "("
                 + KEY_ID + " INTEGER PRIMARY KEY autoincrement, assignedto INTEGER, creator INTEGER, due TEXT, duration TEXT, priority INTEGER, tools INTEGER, status INTEGER, title TEXT, description TEXT, reward TEXT" + ")";
@@ -155,14 +155,22 @@ public class DBHandler extends SQLiteOpenHelper {
         //values.put("name", name);
         //values.put("accessLevel", accessLevel);
         // Inserting Row
-        db.insert(TABLE_TASK, null, values);
+        db.insert(TABLE_STORAGE, null, values);
         db.close(); // Closing database connection
     }
 
     public void removeItem(StoredItem fridItem, StorageUnit unit) {
         SQLiteDatabase db = this.getWritableDatabase();
         //get data
-        Cursor c = db.rawQuery("DELETE FROM " + TABLE_TASK + " WHERE name = " + fridItem.getName() + ", storageid = " + unit.getStorageID() , null);
+        Cursor c = db.rawQuery("DELETE FROM " + TABLE_STORAGE + " WHERE name = " + fridItem.getName() + ", storageid = " + unit.getStorageID() , null);
+        System.out.println("Deleted: " + c.getCount());
+        db.close(); // Closing database connection
+    }
+
+    public void updateUserPoints(User user, int points){
+        SQLiteDatabase db = this.getWritableDatabase();
+        //get data
+        Cursor c = db.rawQuery("UPDATE " + TABLE_USER + " SET points = " + points + " WHERE id = " + user.getId() , null);
         System.out.println("Deleted: " + c.getCount());
         db.close(); // Closing database connection
     }
@@ -202,7 +210,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
         if(dot > 0){
             c.moveToNext();
-            return new User(c.getInt(3), c.getString(1), c.getString(0), c.getInt(2) == 1 ? true : false, null);
+            return new User(c.getInt(3), c.getString(1), c.getString(0), c.getInt(2) == 1 ? true : false, null, c.getInt(4));
         }
         return null;
     }
@@ -238,7 +246,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public User getUser(int id){
         SQLiteDatabase db = this.getReadableDatabase();
         if(id == -1){
-            return new User(-1, "Unassigned", "Unassigned", false, null);
+            return new User(-1, "Unassigned", "Unassigned", false, null, 0);
         }
         // Inserting Rowx
         Cursor c = db.query(TABLE_USER, new String[]{"username", "name", "accessLevel", KEY_ID}
@@ -247,7 +255,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
         if(dot > 0){
             c.moveToNext();
-            return new User(c.getInt(3), c.getString(1), c.getString(0), c.getInt(2) == 1 ? true : false, null);
+            return new User(c.getInt(3), c.getString(1), c.getString(0), c.getInt(2) == 1 ? true : false, null, c.getInt(4));
         }
         return null;
     }
@@ -261,7 +269,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
         if(dot > 0){
             c.moveToNext();
-            return new User(c.getInt(3), c.getString(1), c.getString(0), c.getInt(2) == 1 ? true : false, null);
+            return new User(c.getInt(3), c.getString(1), c.getString(0), c.getInt(2) == 1 ? true : false, null, c.getInt(4));
         }
         return null;
     }
