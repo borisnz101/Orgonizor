@@ -216,30 +216,6 @@ public class Task {
     return reward;
   }
 
-  public StoredItem getStoredItem(int index)
-  {
-    StoredItem aStoredItem = storedItems.get(index);
-    return aStoredItem;
-  }
-
-  public List<StoredItem> getStoredItems()
-  {
-    List<StoredItem> newStoredItems = Collections.unmodifiableList(storedItems);
-    return newStoredItems;
-  }
-
-  public int numberOfStoredItems()
-  {
-    int number = storedItems.size();
-    return number;
-  }
-
-  public boolean hasStoredItems()
-  {
-    boolean has = storedItems.size() > 0;
-    return has;
-  }
-
   public int indexOfStoredItem(StoredItem aStoredItem)
   {
     int index = storedItems.indexOf(aStoredItem);
@@ -251,16 +227,6 @@ public class Task {
     return user;
   }
 
-  public boolean hasUser()
-  {
-    boolean has = user != null;
-    return has;
-  }
-
-  public static int minimumNumberOfStoredItems()
-  {
-    return 0;
-  }
 
   public boolean addStoredItem(StoredItem aStoredItem)
   {
@@ -307,37 +273,6 @@ public class Task {
     return wasRemoved;
   }
 
-  public boolean addStoredItemAt(StoredItem aStoredItem, int index)
-  {  
-    boolean wasAdded = false;
-    if(addStoredItem(aStoredItem))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfStoredItems()) { index = numberOfStoredItems() - 1; }
-      storedItems.remove(aStoredItem);
-      storedItems.add(index, aStoredItem);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveStoredItemAt(StoredItem aStoredItem, int index)
-  {
-    boolean wasAdded = false;
-    if(storedItems.contains(aStoredItem))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfStoredItems()) { index = numberOfStoredItems() - 1; }
-      storedItems.remove(aStoredItem);
-      storedItems.add(index, aStoredItem);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addStoredItemAt(aStoredItem, index);
-    }
-    return wasAdded;
-  }
 
   public boolean setUser(User aUser)
   {
@@ -355,88 +290,6 @@ public class Task {
     wasSet = true;
     return wasSet;
   }
-
-  public void delete()
-  {
-    ArrayList<StoredItem> copyOfStoredItems = new ArrayList<StoredItem>(storedItems);
-    storedItems.clear();
-    for(StoredItem aStoredItem : copyOfStoredItems)
-    {
-      aStoredItem.removeTask(this);
-    }
-    if (user != null)
-    {
-      User placeholderUser = user;
-      this.user = null;
-      placeholderUser.removeTask(this);
-    }
-  }
-
-  /* line 18 "model.ump"
-   public void createTask(String title, String description, String due, String duration, User creator){
-    
-  }
-
-  why not just use the constructor */
-
-  // line 19 "model.ump"
-  //TODO remove task from database
-   public void deleteTask(int ID){
-    
-  }
-
-  /* line 20 "model.ump"
-   public void modifyTask(int ID){
-    
-  }
-
-  seems useless to me, why not just use the setters */
-
-  // line 21 "model.ump"
-
-  /* public boolean takeTask(User aUser){
-     boolean wasTaken = false;
-     if(aUser != null){
-       this.setUser(aUser);
-     }
-     return wasTaken;
-  }
-
-  // line 22 "model.ump"
-
-   public boolean untakeTask(String username, int ID){
-    return false;
-  }
-
-  these methods already exist in user */
-
-  // line 23 "model.ump"
-   public String taskInfo(){
-
-     return this.toString();
-  }
-
-  // line 24 "model.ump"
-   public String toolsInfo(){
-
-     String string = "[";
-
-     for(int i=0; i<this.numberOfStoredItems()-1; i++ ){
-
-       string = string + this.getStoredItem(i).toString();
-
-     }
-
-     string = string + "]";
-
-     return string;
-  }
-
-  /* line 25 "model.ump"
-   public void hideTask(String username){
-    
-  }
-  I dont see the use of this method */
 
   public String toString()
   {

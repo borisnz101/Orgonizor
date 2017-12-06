@@ -27,12 +27,6 @@ public class StoredItem {
     public StoredItem(String aName)//, StorageUnit aStorageUnit)
     {
         name = aName;
-        //tasks = new ArrayList<Task>();
-        //boolean didAddStorageUnit = setStorageUnit(aStorageUnit);
-        //if (!didAddStorageUnit)
-        //{
-          //  throw new RuntimeException("Unable to create storedItem due to storageUnit");
-        //}
     }
 
   public StoredItem(String aName, String aDescription, int aId, StorageUnit aStorageUnit)

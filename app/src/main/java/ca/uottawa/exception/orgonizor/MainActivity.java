@@ -47,17 +47,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private HashMap<String, Integer> priorite;
     private HashMap<Integer, String> priorities;
     private HashMap<Integer, String> statuses;
-    GridLayout fridGrid;
-    GridLayout cupGrid;
+    GridLayout foodGrid;
     GridLayout broomCGrid;
     GridLayout materialGrid;
     GridLayout groceGrid;
     CheckBox itemAdded;
-    StorageUnit fridge = new StorageUnit(1);
-    StorageUnit cup = new StorageUnit(2);
-    StorageUnit broomC = new StorageUnit(3);
-    StorageUnit material = new StorageUnit(4);
-    StorageUnit groce = new StorageUnit(5);
+    StorageUnit food = new StorageUnit(1);
+    StorageUnit broomC = new StorageUnit(2);
+    StorageUnit material = new StorageUnit(3);
+    StorageUnit groce = new StorageUnit(4);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,9 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        fridGrid = (GridLayout) findViewById(R.id.FridgeGrid);
-        cupGrid = (GridLayout) findViewById(R.id.CupGrid);
+        foodGrid =(GridLayout) findViewById(R.id.FoodGrid);
         broomCGrid = (GridLayout) findViewById(R.id.BroomCGrid);
         materialGrid = (GridLayout) findViewById(R.id.MaterialGrid);
         groceGrid = (GridLayout) findViewById(R.id.GroceGrid);
@@ -122,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onClick(View v) {
-                //addTaskToView(new Task(null, null, "", "", 0, null, 0, "Clean garage", "", 0, ""));
                 if(logged.getIsParent()) {
                     callAddTask(true);
                 }
@@ -132,7 +127,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onClick(View v) {
-                //addTaskToView(new Task(null, null, "", "", 0, null, 0, "Clean garage", "", 0, ""));
                 callAddTask(true);
             }
         });
@@ -140,14 +134,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callAddItem(fridGrid, "fridGrid");
-            }
-        });
-
-        findViewById(R.id.button4).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                callAddItem(cupGrid, "cupGrid");
+                callAddItem(foodGrid, "foodGrid");
             }
         });
 
@@ -201,39 +188,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void generateStorage(){
-        if(fridGrid.getChildCount() > 0)
-            fridGrid.removeAllViews();
+        if(foodGrid.getChildCount() > 0)
+            foodGrid.removeAllViews();
         List<StoredItem> itemsFridge = db.getStorageUnit(1).getStoredItems();
         for(StoredItem item : itemsFridge){
-            addItemToView(fridGrid, item, 1);
-        }
-
-        if(cupGrid.getChildCount() > 0)
-            cupGrid.removeAllViews();
-        List<StoredItem> itemsCup = db.getStorageUnit(2).getStoredItems();
-        for(StoredItem item : itemsCup){
-            addItemToView(cupGrid, item, 2);
+            addItemToView(foodGrid, item, 1);
         }
 
         if(broomCGrid.getChildCount() > 0)
             broomCGrid.removeAllViews();
-        List<StoredItem> itemsBroom = db.getStorageUnit(3).getStoredItems();
+        List<StoredItem> itemsBroom = db.getStorageUnit(2).getStoredItems();
         for(StoredItem item : itemsBroom){
-            addItemToView(broomCGrid, item, 3);
+            addItemToView(broomCGrid, item, 2);
         }
 
         if(materialGrid.getChildCount() > 0)
             materialGrid.removeAllViews();
-        List<StoredItem> itemsMaterial = db.getStorageUnit(4).getStoredItems();
+        List<StoredItem> itemsMaterial = db.getStorageUnit(3).getStoredItems();
         for(StoredItem item : itemsMaterial){
-            addItemToView(materialGrid, item, 4);
+            addItemToView(materialGrid, item, 3);
         }
 
         if(groceGrid.getChildCount() > 0)
             groceGrid.removeAllViews();
-        List<StoredItem> itemsGroce = db.getStorageUnit(5).getStoredItems();
+        List<StoredItem> itemsGroce = db.getStorageUnit(4).getStoredItems();
         for(StoredItem item : itemsGroce){
-            addItemToView(groceGrid, item, 5);
+            addItemToView(groceGrid, item, 4);
         }
     }
 
@@ -268,33 +248,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         newItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StoredItem fridItem= new StoredItem(item.getName());
-                StoredItem cupItem= new StoredItem(item.getName());
+                StoredItem foodItem= new StoredItem(item.getName());
                 StoredItem broomCItem= new StoredItem(item.getName());
                 StoredItem materialItem= new StoredItem(item.getName());
                 StoredItem groceItem= new StoredItem(item.getName());
                 switch(storage){
                     case 1:
                         if (newItem.isChecked()) {
-                            db.addItem(fridItem, fridge);
-                            db.removeItem(fridItem, groce);
+                            db.addItem(foodItem, food);
+                            db.removeItem(foodItem, groce);
                         }
                         else {
-                            db.removeItem(fridItem, fridge);
-                            db.addItem(fridItem, groce);
+                            db.removeItem(foodItem, food);
+                            db.addItem(foodItem, groce);
                         }
                         break;
                     case 2:
-                        if (newItem.isChecked()) {
-                            db.addItem(cupItem, cup);
-                            db.removeItem(cupItem, groce);
-                        }
-                        else {
-                            db.removeItem(cupItem, cup);
-                            db.addItem(cupItem, groce);
-                        }
-                        break;
-                    case 3:
                         if (newItem.isChecked()) {
                             db.addItem(broomCItem, broomC);
                             db.removeItem(broomCItem, material);
@@ -304,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             db.addItem(broomCItem, material);
                         }
                         break;
-                    case 4:
+                    case 3:
                         if (newItem.isChecked()) {
                             db.addItem(materialItem, material);
                             db.removeItem(materialItem, broomC);
@@ -314,16 +283,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             db.addItem(materialItem, broomC);
                         }
                         break;
-                    case 5:
+                    case 4:
                         if (newItem.isChecked()) {
                             db.addItem(groceItem, groce);
-                            db.removeItem(groceItem, fridge);
-                            db.removeItem(groceItem, cup);
+                            db.removeItem(groceItem, food);
                         }
                         else {
                             db.removeItem(groceItem, groce);
-                            db.addItem(groceItem, fridge);
-                            db.addItem(groceItem, cup);
+                            db.addItem(groceItem, food);
                         }
                         break;
                 }
@@ -690,30 +657,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         itemAdded.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StoredItem fridItem= new StoredItem(itemAdded.getText().toString());
-                StoredItem cupItem= new StoredItem(itemAdded.getText().toString());
+                StoredItem foodItem= new StoredItem(itemAdded.getText().toString());
                 StoredItem broomCItem= new StoredItem(itemAdded.getText().toString());
                 StoredItem materialItem= new StoredItem(itemAdded.getText().toString());
                 StoredItem groceItem= new StoredItem(itemAdded.getText().toString());
                 switch(text){
-                    case "fridGrid":
+                    case "foodGrid":
                         if (itemAdded.isChecked()) {
-                            db.addItem(fridItem, fridge);
-                            db.removeItem(fridItem, groce);
+                            db.addItem(foodItem, food);
+                            db.removeItem(foodItem, groce);
                         }
                         else {
-                            db.removeItem(fridItem, fridge);
-                            db.addItem(fridItem, groce);
-                        }
-                        break;
-                    case "cupGrid":
-                        if (itemAdded.isChecked()) {
-                            db.addItem(cupItem, cup);
-                            db.removeItem(cupItem, groce);
-                        }
-                        else {
-                            db.removeItem(cupItem, cup);
-                            db.addItem(cupItem, groce);
+                            db.removeItem(foodItem, food);
+                            db.addItem(foodItem, groce);
                         }
                         break;
                     case "broomCGrid":
@@ -739,13 +695,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     case "groceGrid":
                         if (itemAdded.isChecked()) {
                             db.addItem(groceItem, groce);
-                            db.removeItem(groceItem, fridge);
-                            db.removeItem(groceItem, cup);
+                            db.removeItem(groceItem, food);
                         }
                         else {
                             db.removeItem(groceItem, groce);
-                            db.addItem(groceItem, fridge);
-                            db.addItem(groceItem, cup);
+                            db.addItem(groceItem, food);
                         }
                         break;
                 }
