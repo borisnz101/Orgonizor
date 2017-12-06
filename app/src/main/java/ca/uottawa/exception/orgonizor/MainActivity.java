@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         for(Task task : tasks){
             System.out.println("ID: " + task.getId());
             if(task.getStatus() != Task.Status.COMPLETED.getValue()) {
-                addTaskToView(task);
+                addTaskToView(task, false);
             }
         }
 
@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void addTaskToView(Task task){
+    private void addTaskToView(Task task, boolean checked){
         final LinearLayout list = (LinearLayout) findViewById(R.id.taskList);
         final View layout2 = LayoutInflater.from(this).inflate(R.layout.task_entry, list, false);
 
@@ -302,23 +302,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         id.setText(task.getId()+"");
 
         final CheckBox chk = (CheckBox) layout2.findViewById(R.id.taskComplete);
+        chk.setChecked(checked);
 
-        chk.setOnClickListener(new View.OnClickListener() {
+        if(!checked) {
+            chk.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                TextView id = (TextView) layout2.findViewById(R.id.taskid);
-                int iden = Integer.parseInt(id.getText().toString());
-                if(logged.getIsParent() || db.getTask(iden).getAssignedTo().getId() == logged.getId()) {
-                    db.removeTask(iden);
-                    list.removeView(layout2);
-                    Toast.makeText(getApplication().getBaseContext(), R.string.taskcomplete, Toast.LENGTH_SHORT).show();
-                }else{
-                    chk.setChecked(false);
-                    Toast.makeText(getApplication().getBaseContext(), R.string.tasknotremovednoperm, Toast.LENGTH_SHORT).show();
+                @Override
+                public void onClick(View v) {
+                    TextView id = (TextView) layout2.findViewById(R.id.taskid);
+                    int iden = Integer.parseInt(id.getText().toString());
+                    if (logged.getIsParent() || db.getTask(iden).getAssignedTo().getId() == logged.getId()) {
+                        db.removeTask(iden);
+                        list.removeView(layout2);
+                        Toast.makeText(getApplication().getBaseContext(), R.string.taskcomplete, Toast.LENGTH_SHORT).show();
+                    } else {
+                        chk.setChecked(false);
+                        Toast.makeText(getApplication().getBaseContext(), R.string.tasknotremovednoperm, Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
+        }else{
+            chk.setClickable(false);
+        }
 
         layout2.setOnClickListener(new View.OnClickListener() {
 
@@ -452,7 +457,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 Task task = new Task(use, logged, due.getText().toString(), taskDuration, priorite.get(taskPriority), new StorageUnit(1), status, taskTitle, taskDescription, -1, taskReward);
                 task = db.addTask(task);
-                addTaskToView(task);
+                addTaskToView(task, false);
                 myDialog.dismiss();
             }
         });
@@ -656,22 +661,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         filtere.setAdapter(spinnerCountShoesArrayAdapter);
         myDialog.show();
 
+        final CheckBox chkbox = myDialog.findViewById(R.id.showCompleted);
+
         Button filter = (Button) myDialog.findViewById(R.id.FilterButton);
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //filterTasks(priority.isChecked(), user.isChecked(), duration.isChecked(), date.isChecked(), reward.isChecked(), status.isChecked());
-                filterTasks(assignee.getSelectedItem().toString(), filtere.getSelectedItem().toString());
+                filterTasks(assignee.getSelectedItem().toString(), filtere.getSelectedItem().toString(), chkbox.isChecked());
                 myDialog.dismiss();
             }
         });
     }
 
-    public void filterTasks(String user, String filter){
+    public void filterTasks(String user, String filter, boolean showCompleted){
         String filterString = "";
         if(!user.equals("None")){
             User usere = db.getUser(user);
-            filterString += "WHERE assignedto = " + usere.getId();
+            filterString += "WHERE assignedto = " + usere.getId() + " ";
         }
 
         String appended = "";
@@ -691,8 +698,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         for(Task task : tasks){
             System.out.println("ID: " + task.getId());
-            if(task.getStatus() != Task.Status.COMPLETED.getValue()) {
-                addTaskToView(task);
+            if(task.getStatus() != Task.Status.COMPLETED.getValue() || showCompleted) {
+                addTaskToView(task, task.getStatus() == Task.Status.COMPLETED.getValue());
             }
         }
         

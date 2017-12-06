@@ -48,6 +48,7 @@
     <string name="tasknotremovednoperm">No permission to edit that task!</string>
     <string name="filter">Filter</string>
     <string name="filter_by">Filter By :</string>
+    <string name="showcomplete">Show Completed</string>
     <string-array name="priority">
         <item>URGENT</item>
         <item>IMPORTANT</item>
