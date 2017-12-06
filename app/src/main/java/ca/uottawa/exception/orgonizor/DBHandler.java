@@ -43,7 +43,7 @@ public class DBHandler extends SQLiteOpenHelper {
         + KEY_ID + " INTEGER PRIMARY KEY autoincrement,username TEXT, password TEXT, name TEXT, accessLevel INTEGER, points INTEGER" + ")";
         db.execSQL(CREATE_USER_TABLE);
         String CREATE_TASK_TABLE = "CREATE TABLE " + TABLE_TASK + "("
-                + KEY_ID + " INTEGER PRIMARY KEY autoincrement, assignedto INTEGER, creator INTEGER, due TEXT, duration TEXT, priority INTEGER, tools INTEGER, status INTEGER, title TEXT, description TEXT, reward INTEGER" + ")";
+                + KEY_ID + " INTEGER PRIMARY KEY autoincrement, assignedto INTEGER, creator INTEGER, due TEXT, duration TEXT, priority INTEGER, tools TEXT, status INTEGER, title TEXT, description TEXT, reward INTEGER" + ")";
         db.execSQL(CREATE_TASK_TABLE);
         String CREATE_STORAGE_TABLE = "CREATE TABLE " + TABLE_STORAGE + "("
                 + KEY_ID + " INTEGER PRIMARY KEY autoincrement, name TEXT, storageid INTEGER" + ")";
@@ -67,7 +67,7 @@ public class DBHandler extends SQLiteOpenHelper {
         int dot = c.getCount();
         db.close(); // Closing database connection
         while(c.moveToNext()){
-            tasks.add(new Task(getUser(c.getInt(1)), getUser(c.getInt(2)), c.getString(3), c.getString(4), c.getInt(5), getStorageUnit(c.getInt(6)), c.getInt(7), c.getString(8), c.getString(9), c.getInt(0), c.getInt(10)));
+            tasks.add(new Task(getUser(c.getInt(1)), getUser(c.getInt(2)), c.getString(3), c.getString(4), c.getInt(5), c.getString(6), c.getInt(7), c.getString(8), c.getString(9), c.getInt(0), c.getInt(10)));
         }
         return tasks;
     }
@@ -80,7 +80,7 @@ public class DBHandler extends SQLiteOpenHelper {
         int dot = c.getCount();
         db.close(); // Closing database connection
         while(c.moveToNext()){
-            tasks.add(new Task(getUser(c.getInt(1)), getUser(c.getInt(2)), c.getString(3), c.getString(4), c.getInt(5), getStorageUnit(c.getInt(6)), c.getInt(7), c.getString(8), c.getString(9), c.getInt(0), c.getInt(10)));
+            tasks.add(new Task(getUser(c.getInt(1)), getUser(c.getInt(2)), c.getString(3), c.getString(4), c.getInt(5), c.getString(6), c.getInt(7), c.getString(8), c.getString(9), c.getInt(0), c.getInt(10)));
         }
         return tasks;
     }
@@ -94,7 +94,7 @@ public class DBHandler extends SQLiteOpenHelper {
         System.out.println("Count: " + dot);
         db.close(); // Closing database connection
         c.moveToNext();
-        task = new Task(getUser(c.getInt(1)), getUser(c.getInt(2)), c.getString(3), c.getString(4), c.getInt(5), getStorageUnit(c.getInt(6)), c.getInt(7), c.getString(8), c.getString(9), c.getInt(0), c.getInt(10));
+        task = new Task(getUser(c.getInt(1)), getUser(c.getInt(2)), c.getString(3), c.getString(4), c.getInt(5), c.getString(6), c.getInt(7), c.getString(8), c.getString(9), c.getInt(0), c.getInt(10));
         return task;
     }
 
@@ -120,7 +120,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put("due", task.getDue());
         values.put("duration", task.getDuration());
         values.put("priority", task.getPriority());
-        values.put("tools", task.getTools().getStorageID());
+        values.put("tools", task.getTools());
         values.put("status", task.getStatus());
         values.put("title", task.getTitle());
         values.put("description", task.getDescription());
@@ -146,7 +146,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put("due", task.getDue());
         values.put("duration", task.getDuration());
         values.put("priority", task.getPriority());
-        values.put("tools", task.getTools().getStorageID());
+        values.put("tools", task.getTools());
         values.put("status", task.getStatus());
         values.put("title", task.getTitle());
         values.put("description", task.getDescription());

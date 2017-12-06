@@ -123,7 +123,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 //addTaskToView(new Task(null, null, "", "", 0, null, 0, "Clean garage", "", 0, ""));
-                callAddTask(true);
+                if(logged.getIsParent()) {
+                    callAddTask(true);
+                }
             }
         });
         findViewById(R.id.textView8).setOnClickListener(new View.OnClickListener() {
@@ -177,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         //uncomment to delete the database for testing
-        db.onUpgrade(db.getWritableDatabase(),0,0);
+        //db.onUpgrade(db.getWritableDatabase(),0,0);
 
         //add all tasks from the db to the view
         ArrayList<Task> tasks = db.getTasks();
@@ -486,8 +488,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         due.setText(task.getDue());
         EditText taskDuration = myDialog.findViewById(R.id.duration);
         taskDuration.setText(task.getDuration());
-        EditText taskTools = myDialog.findViewById(R.id.tools);
-        taskTools.setText("");
+        final EditText taskTools = myDialog.findViewById(R.id.tools);
+        taskTools.setText(task.getTools());
         EditText taskReward = myDialog.findViewById(R.id.reward);
         taskReward.setText(String.valueOf(task.getReward()));
 
@@ -515,6 +517,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 String taskDescription = ((EditText)myDialog.findViewById(R.id.description)).getText().toString();
                 String taskDuration = ((EditText)myDialog.findViewById(R.id.duration)).getText().toString();
                 String taskReward = ((EditText)myDialog.findViewById(R.id.reward)).getText().toString();
+                String taskTools = ((EditText)myDialog.findViewById(R.id.tools)).getText().toString();
+
 
                 //bunch of input validation
                 boolean rewardIsNumber = taskReward.matches("-?\\d+(\\.\\d+)?");
@@ -534,7 +538,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     } else {
                         use = db.getUser(taskAssignee);
                     }
-                    Task taske = new Task(use, logged, due.getText().toString(), taskDuration, priorite.get(taskPriority), new StorageUnit(1), status, taskTitle, taskDescription, task.getId(), Integer.parseInt(taskReward));
+                    Task taske = new Task(use, logged, due.getText().toString(), taskDuration, priorite.get(taskPriority), taskTools, status, taskTitle, taskDescription, task.getId(), Integer.parseInt(taskReward));
                     db.updateTask(taske);
                     myDialog.dismiss();
                 }
@@ -603,6 +607,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 String taskDescription = ((EditText)myDialog.findViewById(R.id.editText2)).getText().toString();
                 String taskDuration = ((EditText)myDialog.findViewById(R.id.editText4)).getText().toString();
                 String taskReward = ((EditText)myDialog.findViewById(R.id.editText7)).getText().toString();
+                String taskTools = ((EditText)myDialog.findViewById(R.id.editText6)).toString();
 
                 //bunch of input validation
                 boolean rewardIsNumber = taskReward.matches("-?\\d+(\\.\\d+)?");
@@ -622,7 +627,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     } else {
                         use = db.getUser(taskAssignee);
                     }
-                    Task task = new Task(use, logged, due.getText().toString(), taskDuration, priorite.get(taskPriority), new StorageUnit(1), status, taskTitle, taskDescription, -1, Integer.parseInt(taskReward));
+                    Task task = new Task(use, logged, due.getText().toString(), taskDuration, priorite.get(taskPriority), taskTools, status, taskTitle, taskDescription, -1, Integer.parseInt(taskReward));
                     task = db.addTask(task);
                     addTaskToView(task, false);
                     myDialog.dismiss();
@@ -892,12 +897,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
 
             case R.id.registernew: {
-                callRegisterDialog(false, true);
+                if(logged.getIsParent()) {
+                    callRegisterDialog(false, true);
+                }
                 break;
             }
 
             case R.id.switche: {
                 callLoginDialog(true);
+                break;
+            }
+
+            case R.id.logout: {
+                logged = null;
+                loggedIn = false;
+                callLoginDialog(false);
                 break;
             }
         }

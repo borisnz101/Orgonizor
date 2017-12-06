@@ -27,7 +27,7 @@ public class Task {
       }
   }
   private int priority;
-  private StorageUnit tools;
+  private String tools;
   public enum Status{
     COMPLETED(2), ASSIGNED(1), NOT_ASSIGNED(0);
       private final int value;
@@ -53,7 +53,7 @@ public class Task {
   // CONSTRUCTOR
   //------------------------
 
-  public Task(User aAssignedTo, User aCreator, String aDue, String aDuration, int aPriority, StorageUnit aTools, int aStatus, String aTitle, String aDescription, long aId, int aReward)
+  public Task(User aAssignedTo, User aCreator, String aDue, String aDuration, int aPriority, String aTools, int aStatus, String aTitle, String aDescription, long aId, int aReward)
   {
     assignedTo = aAssignedTo;
     creator = aCreator;
@@ -113,7 +113,7 @@ public class Task {
     return wasSet;
   }
 
-  public boolean setTools(StorageUnit aTools)
+  public boolean setTools(String aTools)
   {
     boolean wasSet = false;
     tools = aTools;
@@ -186,7 +186,7 @@ public class Task {
     return priority;
   }
 
-  public StorageUnit getTools()
+  public String getTools()
   {
     return tools;
   }
