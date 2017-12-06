@@ -113,8 +113,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onClick(View v) {
-                addTaskToView(new Task(null, null, "", "", 0, null, 0, "Clean garage", "", 0, ""));
-                //callAddTask(true);
+                //addTaskToView(new Task(null, null, "", "", 0, null, 0, "Clean garage", "", 0, ""));
+                callAddTask(true);
             }
         });
 
@@ -152,11 +152,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        updateGrid(fridGrid);
-        updateGrid(cupGrid);
-        updateGrid(broomCGrid);
-        updateGrid(materialGrid);
-        updateGrid(groceGrid);
+        //addItemToView(fridGrid); // TODO condition if null
+        //addItemToView(cupGrid);
+        //addItemToView(broomCGrid);
+        //addItemToView(materialGrid);
+        //addItemToView(groceGrid);
 
 
 
@@ -213,6 +213,69 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+    }
+
+    private void addItemToView(GridLayout grid){
+        for (int i=0; i<db.getStorageUnit(0).numberOfStoredItems();i++){ // grids or numbers?
+            CheckBox item = new CheckBox(MainActivity.this);
+            item.setText(db.getStorageUnit(0).getStoredItems().toString()); // TODO change StorageUnit and StoredItem methods
+            item.setChecked(true);
+            if (item.isChecked()) {
+                switch(grid.toString()){
+                    case "fridGrid":
+                        StoredItem fridItem= new StoredItem(item.toString());
+                        // TODO db.addItem(fridItem, fridge); // fridge or 1?
+                        // TODO db.removeItem(fridItem, groce); //
+                        //fridge.addStoredItem(fridItem); uneeded?
+                    case "cupGrid":
+                        StoredItem cupItem= new StoredItem(item.toString());
+                        // TODO db.addItem(cupItem, cup); // cup or 2?
+                        // TODO db.removeItem(cupItem, groce); //
+                        //fridge.addStoredItem(cupItem); uneeded?
+                    case "broomCGrid":
+                        StoredItem broomCItem= new StoredItem(item.toString());
+                        // TODO db.addItem(broomCItem, broomC); //
+                        // TODO db.removeItem(broomCItem, material); //
+                        //fridge.addStoredItem(broomCItem);uneeded?
+                    case "materialGrid":
+                        StoredItem materialItem= new StoredItem(item.toString());
+                        // TODO db.addItem(materialItem, material); //
+                        // TODO db.removeItem(materialItem, broomC);
+                        //fridge.addStoredItem(materialItem);uneeded?
+                    case "groceGrid":
+                        StoredItem groceItem= new StoredItem(item.toString());
+                        // TODO db.addItem(groceItem, groce); //
+                        // TODO db.removeItem(groceItem, fridge);
+                        // TODO db.removeItem(groceItem, cup);
+                        //fridge.addStoredItem(groceItem);uneeded?
+                }
+            }
+            else {
+                switch(grid.toString()){
+                    case "fridGrid":
+                        // TODO db.removeItem(item.toString(), fridge); // fridge or 1
+                        // TODO db.addItem(item.toString(), groce);
+                        //fridge.removeStoredItem(itemName); uneeded?
+                    case "cupGrid":
+                        // TODO db.removeItem(item.toString(), cup); //
+                        // TODO db.addItem(item.toString(), groce);
+                        //fridge.removeStoredItem(itemName); uneeded?
+                    case "broomCGrid":
+                        // TODO db.removeItem(item.toString(), broomC); //
+                        // TODO db.addItem(item.toString(), material); //
+                        //fridge.removeStoredItem(itemName); uneeded?
+                    case "materialGrid":
+                        // TODO db.removeItem(item.toString(), material); //
+                        // TODO db.addItem(item.toString(), broomC); //
+                        //fridge.removeStoredItem(itemName); uneeded?
+                    case "groceGrid":
+                        // TODO db.removeItem(item.toString(), groce); //
+                        // TODO db.addItem(item.toString(), fridge);
+                        // TODO db.addItem(item.toString(), cup);
+                        //fridge.removeStoredItem(itemName); uneeded?
+                }
+            }
+        }
     }
 
     private void addTaskToView(Task task){
@@ -484,16 +547,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 myDialog.dismiss();
             }
         });
-    }
-
-    public void updateGrid(GridLayout grid){
-        for (int i=0; i< grid.getChildCount(); i++){
-            // TODO
-            //View checkV = grid.getChildAt(i);
-            //CheckBox checkBox = (CheckBox) checkV.findViewById(R.id.???);
-            //db.getStorage(grid).getItem();
-            //checkBox.isChecked();
-        }
     }
 
     //Firstuser is used to know if we should bother showing an admin checkbox, if there is no other admins this one must be an admin
