@@ -43,7 +43,7 @@ public class Task {
   private String title;
   private String description;
   private long id;
-  private String reward;
+  private int reward;
 
   //Task Associations
   private List<StoredItem> storedItems;
@@ -53,7 +53,7 @@ public class Task {
   // CONSTRUCTOR
   //------------------------
 
-  public Task(User aAssignedTo, User aCreator, String aDue, String aDuration, int aPriority, StorageUnit aTools, int aStatus, String aTitle, String aDescription, int aId, String aReward)
+  public Task(User aAssignedTo, User aCreator, String aDue, String aDuration, int aPriority, StorageUnit aTools, int aStatus, String aTitle, String aDescription, long aId, int aReward)
   {
     assignedTo = aAssignedTo;
     creator = aCreator;
@@ -153,7 +153,7 @@ public class Task {
     return wasSet;
   }
 
-  public boolean setReward(String aReward)
+  public boolean setReward(int aReward)
   {
     boolean wasSet = false;
     reward = aReward;
@@ -211,7 +211,7 @@ public class Task {
     return id;
   }
 
-  public String getReward()
+  public int getReward()
   {
     return reward;
   }

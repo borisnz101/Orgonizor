@@ -77,6 +77,10 @@ public class User {
     return wasSet;
   }
 
+  public void setPoints(int points) {
+        this.points = points;
+  }
+
   public String getName()
   {
     return name;
@@ -359,4 +363,5 @@ public class User {
             "isParent" + ":" + getIsParent()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "avatar" + "=" + (getAvatar() != null ? !getAvatar().equals(this)  ? getAvatar().toString().replaceAll("  ","    ") : "this" : "null");
   }
+
 }

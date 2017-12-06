@@ -32,8 +32,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -317,8 +315,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     int iden = Integer.parseInt(id.getText().toString());
                     if (logged.getIsParent() || db.getTask(iden).getAssignedTo().getId() == logged.getId()) {
                         db.removeTask(iden);
+                        Task task = db.getTask(iden);
+                        int points = logged.getPoints() + task.getReward();
+                        logged.setPoints(points);
+                        db.updateUserPoints(logged, points);
+                        TextView pointField = mDrawerLayout.findViewById(R.id.points);
+                        pointField.setText(String.valueOf(logged.getPoints()));
                         list.removeView(layout2);
-                        Toast.makeText(getApplication().getBaseContext(), R.string.taskcomplete, Toast.LENGTH_SHORT).show();
+                        String done = getString(R.string.taskcomplete, task.getReward());
+                        Toast.makeText(getApplication().getBaseContext(), done, Toast.LENGTH_SHORT).show();
                     } else {
                         chk.setChecked(false);
                         Toast.makeText(getApplication().getBaseContext(), R.string.tasknotremovednoperm, Toast.LENGTH_SHORT).show();
@@ -336,7 +341,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 TextView id = (TextView) layout2.findViewById(R.id.taskid);
                 int iden = Integer.parseInt(id.getText().toString());
                 Task task = db.getTask(iden);
-                callViewTask(true, task);
+                if(logged.getId() == task.getCreator().getId() || logged.getIsParent()){
+                    callEditTask(true, task);
+                }else {
+                    callViewTask(true, task);
+                }
             }
         });
         list.addView(layout2);
@@ -397,7 +406,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         taskTools.setText("");
         taskTools.setFocusable(false);
         EditText taskReward = myDialog.findViewById(R.id.reward);
-        taskReward.setText(task.getReward());
+        taskReward.setText(String.valueOf(task.getReward()));
         taskReward.setFocusable(false);
         EditText taskAssignee = myDialog.findViewById(R.id.assignee);
         taskAssignee.setText(task.getAssignedTo().getUsername());
@@ -418,6 +427,107 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 myDialog.dismiss();
+            }
+        });
+
+        myDialog.show();
+
+    }
+
+    private void callEditTask(boolean cancelable, final Task task) {
+        myDialog = new Dialog(this);
+        myDialog.setContentView(R.layout.edit_task_popup);
+        myDialog.setCancelable(cancelable);
+
+        EditText taskTitle = myDialog.findViewById(R.id.titlev);
+        taskTitle.setText(task.getTitle());
+        taskTitle.setFocusable(false);
+        EditText taskDescription = myDialog.findViewById(R.id.description);
+        taskDescription.setText(task.getDescription());
+        final EditText due = myDialog.findViewById(R.id.dueDate);
+        due.setText(task.getDue());
+        EditText taskDuration = myDialog.findViewById(R.id.duration);
+        taskDuration.setText(task.getDuration());
+        EditText taskTools = myDialog.findViewById(R.id.tools);
+        taskTools.setText("");
+        EditText taskReward = myDialog.findViewById(R.id.reward);
+        taskReward.setText(String.valueOf(task.getReward()));
+
+
+        final Spinner assignee= (Spinner) myDialog.findViewById(R.id.spinner);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, db.getUsers());
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+        assignee.setAdapter(spinnerArrayAdapter);
+        assignee.setSelection(task.getAssignedTo().getId());
+        final Spinner priority= (Spinner) myDialog.findViewById(R.id.spinner2);
+        ArrayAdapter<String> spinnerCountShoesArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.priority));
+        priority.setAdapter(spinnerCountShoesArrayAdapter);
+        priority.setSelection(task.getPriority());
+
+        final TextView message = myDialog.findViewById(R.id.alert);
+
+        Button update = myDialog.findViewById(R.id.edittaskbutton);
+        update.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                String taskAssignee = assignee.getSelectedItem().toString();
+                String taskPriority = priority.getSelectedItem().toString();
+                String taskTitle = ((EditText)myDialog.findViewById(R.id.titlev)).getText().toString();
+                String taskDescription = ((EditText)myDialog.findViewById(R.id.description)).getText().toString();
+                String taskDuration = ((EditText)myDialog.findViewById(R.id.duration)).getText().toString();
+                String taskReward = ((EditText)myDialog.findViewById(R.id.reward)).getText().toString();
+
+                //bunch of input validation
+                boolean rewardIsNumber = taskReward.matches("-?\\d+(\\.\\d+)?");
+                if(taskTitle.length() < 1){
+                    message.setText("Title must have a greater length than 0!");
+                    message.setVisibility(View.VISIBLE);
+                }else if(!rewardIsNumber){
+                    message.setText("Please enter a number of points as the reward");
+                    message.setVisibility(View.VISIBLE);
+                }else {
+                    //no validation problems we good to go
+                    int status = 1;
+                    User use;
+                    if (taskAssignee.equals("Unassigned")) {
+                        status = 0;
+                        use = null;
+                    } else {
+                        use = db.getUser(taskAssignee);
+                    }
+                    Task taske = new Task(use, logged, due.getText().toString(), taskDuration, priorite.get(taskPriority), new StorageUnit(1), status, taskTitle, taskDescription, task.getId(), Integer.parseInt(taskReward));
+                    db.updateTask(taske);
+                    myDialog.dismiss();
+                }
+            }
+        });
+
+        final Calendar myCalendar = Calendar.getInstance();
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                String myFormat = "yyyy-MM-dd"; //In which you need put here
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+                due.setText(sdf.format(myCalendar.getTime()));
+            }
+
+        };
+        due.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(MainActivity.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
@@ -459,22 +569,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //bunch of input validation
                 boolean rewardIsNumber = taskReward.matches("-?\\d+(\\.\\d+)?");
                 if(taskTitle.length() < 1){
-                    message.setText("Username must have a greater length than 0!");
+                    message.setText("Title must have a greater length than 0!");
                     message.setVisibility(View.VISIBLE);
+                }else if(!rewardIsNumber){
+                    message.setText("Please enter a number of points as the reward");
+                    message.setVisibility(View.VISIBLE);
+                }else {
+                    //no validation problems we good to go
+                    int status = 1;
+                    User use;
+                    if (taskAssignee.equals("Unassigned")) {
+                        status = 0;
+                        use = null;
+                    } else {
+                        use = db.getUser(taskAssignee);
+                    }
+                    Task task = new Task(use, logged, due.getText().toString(), taskDuration, priorite.get(taskPriority), new StorageUnit(1), status, taskTitle, taskDescription, -1, Integer.parseInt(taskReward));
+                    task = db.addTask(task);
+                    addTaskToView(task, false);
+                    myDialog.dismiss();
                 }
-
-                int status = 1;
-                User use;
-                if(taskAssignee.equals("Unassigned")){
-                    status = 0;
-                    use = null;
-                }else{
-                    use = db.getUser(taskAssignee);
-                }
-                Task task = new Task(use, logged, due.getText().toString(), taskDuration, priorite.get(taskPriority), new StorageUnit(1), status, taskTitle, taskDescription, -1, taskReward);
-                task = db.addTask(task);
-                addTaskToView(task, false);
-                myDialog.dismiss();
             }
         });
 

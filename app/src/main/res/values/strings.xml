@@ -40,7 +40,7 @@
     <string name="confirm">Confirm Allocation</string>
     <string name="duration">Duration</string>
     <string name="accept">Accept</string>
-    <string name="taskcomplete">Task Completed</string>
+    <string name="taskcomplete">Task Completed, %1$d points received!</string>
     <string name="filterbyuser">User : </string>
     <string name="viewtask">Task Details</string>
     <string name="close">Close</string>
