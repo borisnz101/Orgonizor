@@ -176,8 +176,6 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("name", fridItem.getName());
         values.put("storageid", unit.getStorageID());
-        //values.put("name", name);
-        //values.put("accessLevel", accessLevel);
         // Inserting Row
         db.insert(TABLE_STORAGE, null, values);
         db.close(); // Closing database connection
@@ -186,8 +184,8 @@ public class DBHandler extends SQLiteOpenHelper {
     public void removeItem(StoredItem fridItem, StorageUnit unit) {
         SQLiteDatabase db = this.getWritableDatabase();
         //get data
-        Cursor c = db.rawQuery("DELETE FROM " + TABLE_STORAGE + " WHERE name = " + fridItem.getName() + ", storageid = " + unit.getStorageID() , null);
-        System.out.println("Deleted: " + c.getCount());
+        int c = db.delete(TABLE_STORAGE, "name LIKE ? AND storageid = ?", new String[]{fridItem.getName(), unit.getStorageID()+""});
+        System.out.println("Deleted: " + c);
         db.close(); // Closing database connection
     }
 

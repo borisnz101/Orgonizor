@@ -47,6 +47,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private HashMap<String, Integer> priorite;
     private HashMap<Integer, String> priorities;
     private HashMap<Integer, String> statuses;
+    GridLayout fridGrid;
+    GridLayout cupGrid;
+    GridLayout broomCGrid;
+    GridLayout materialGrid;
+    GridLayout groceGrid;
     CheckBox itemAdded;
     StorageUnit fridge = new StorageUnit(1);
     StorageUnit cup = new StorageUnit(2);
@@ -85,11 +90,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        final GridLayout fridGrid = (GridLayout) findViewById(R.id.FridgeGrid);
-        final GridLayout cupGrid = (GridLayout) findViewById(R.id.CupGrid);
-        final GridLayout broomCGrid = (GridLayout) findViewById(R.id.BroomCGrid);
-        final GridLayout materialGrid = (GridLayout) findViewById(R.id.MaterialGrid);
-        final GridLayout groceGrid = (GridLayout) findViewById(R.id.GroceGrid);
+        fridGrid = (GridLayout) findViewById(R.id.FridgeGrid);
+        cupGrid = (GridLayout) findViewById(R.id.CupGrid);
+        broomCGrid = (GridLayout) findViewById(R.id.BroomCGrid);
+        materialGrid = (GridLayout) findViewById(R.id.MaterialGrid);
+        groceGrid = (GridLayout) findViewById(R.id.GroceGrid);
 
 
         TabHost tabs = (TabHost) findViewById(R.id.tabhost);
@@ -172,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         //uncomment to delete the database for testing
-        //db.onUpgrade(db.getWritableDatabase(),0,0);
+        db.onUpgrade(db.getWritableDatabase(),0,0);
 
         //add all tasks from the db to the view
         ArrayList<Task> tasks = db.getTasks();
@@ -183,36 +188,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 addTaskToView(task, false);
             }
         }
-        List<StoredItem> itemsFridge = db.getStorageUnit(1).getStoredItems();
-        for(StoredItem item : itemsFridge){
-            addItemToView(fridGrid, item, 1);
-        }
 
-        List<StoredItem> itemsCup = db.getStorageUnit(2).getStoredItems();
-        for(StoredItem item : itemsCup){
-            addItemToView(cupGrid, item, 2);
-        }
-
-        List<StoredItem> itemsBroom = db.getStorageUnit(3).getStoredItems();
-        for(StoredItem item : itemsBroom){
-            addItemToView(broomCGrid, item, 3);
-        }
-
-        List<StoredItem> itemsMaterial = db.getStorageUnit(4).getStoredItems();
-        for(StoredItem item : itemsMaterial){
-            addItemToView(materialGrid, item, 4);
-        }
-
-        List<StoredItem> itemsGroce = db.getStorageUnit(5).getStoredItems();
-        for(StoredItem item : itemsGroce){
-            addItemToView(groceGrid, item, 5);
-        }
-
+        generateStorage();
 
         if (!db.usersExist()) {
             callRegisterDialog(true, false);
         } else if (!loggedIn) {
             callLoginDialog(false);
+        }
+    }
+
+    private void generateStorage(){
+        if(fridGrid.getChildCount() > 0)
+            fridGrid.removeAllViews();
+        List<StoredItem> itemsFridge = db.getStorageUnit(1).getStoredItems();
+        for(StoredItem item : itemsFridge){
+            addItemToView(fridGrid, item, 1);
+        }
+
+        if(cupGrid.getChildCount() > 0)
+            cupGrid.removeAllViews();
+        List<StoredItem> itemsCup = db.getStorageUnit(2).getStoredItems();
+        for(StoredItem item : itemsCup){
+            addItemToView(cupGrid, item, 2);
+        }
+
+        if(broomCGrid.getChildCount() > 0)
+            broomCGrid.removeAllViews();
+        List<StoredItem> itemsBroom = db.getStorageUnit(3).getStoredItems();
+        for(StoredItem item : itemsBroom){
+            addItemToView(broomCGrid, item, 3);
+        }
+
+        if(materialGrid.getChildCount() > 0)
+            materialGrid.removeAllViews();
+        List<StoredItem> itemsMaterial = db.getStorageUnit(4).getStoredItems();
+        for(StoredItem item : itemsMaterial){
+            addItemToView(materialGrid, item, 4);
+        }
+
+        if(groceGrid.getChildCount() > 0)
+            groceGrid.removeAllViews();
+        List<StoredItem> itemsGroce = db.getStorageUnit(5).getStoredItems();
+        for(StoredItem item : itemsGroce){
+            addItemToView(groceGrid, item, 5);
         }
     }
 
@@ -306,6 +325,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                         break;
                 }
+                generateStorage();
             }
         });
 
@@ -655,7 +675,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 EditText editT = (EditText) myDialog.findViewById(R.id.editText);
                 String itemName = editT.getText().toString();
+                StoredItem item = new StoredItem(itemName);
                 itemAdded.setText(itemName);
+                System.out.println("Added item: " + itemName);
                 grid.addView(itemAdded);
                 myDialog.dismiss();
             }
@@ -722,6 +744,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                         break;
                 }
+                generateStorage();
             }
         });
     }
