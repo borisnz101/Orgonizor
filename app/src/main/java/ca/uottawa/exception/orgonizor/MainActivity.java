@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         //uncomment to delete the database for testing
-        db.onUpgrade(db.getWritableDatabase(),0,0);
+        //db.onUpgrade(db.getWritableDatabase(),0,0);
 
         //add all tasks from the db to the view
         ArrayList<Task> tasks = db.getTasks();
