@@ -32,6 +32,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String mActivityTitle;
     private DBHandler db;
     private HashMap<String, Integer> priorite;
+    private HashMap<Integer, String> priorities;
+    private HashMap<Integer, String> statuses;
     StorageUnit fridge = new StorageUnit(1);
     StorageUnit cup = new StorageUnit(2);
     StorageUnit broomC = new StorageUnit(3);
@@ -63,6 +67,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         priorite.put("IMPORTANT", 2);
         priorite.put("NORMAL", 1);
         priorite.put("NOT_URGENT", 0);
+        priorities = new HashMap<Integer, String>();
+        priorities.put(3, "URGENT");
+        priorities.put(2, "IMPORTANT");
+        priorities.put(1, "NORMAL");
+        priorities.put(0, "NOT_URGENT");
+        statuses = new HashMap<Integer, String>();
+        statuses.put(2, "COMPLETED");
+        statuses.put(1, "ASSIGNED");
+        statuses.put(0, "NOT_ASSIGNED");
 
         setupDrawer();
 
@@ -319,8 +332,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         taskCreator.setText(task.getCreator().getUsername());
         taskCreator.setFocusable(false);
         EditText taskPriority = myDialog.findViewById(R.id.priority);
-        taskPriority.setText(String.valueOf(task.getPriority()));
+        taskPriority.setText(priorities.get(task.getPriority()));
         taskPriority.setFocusable(false);
+        EditText taskStatus = myDialog.findViewById(R.id.status);
+        taskStatus.setText(statuses.get(task.getStatus()));
+        taskStatus.setFocusable(false);
 
         Button close = myDialog.findViewById(R.id.close);
         close.setOnClickListener(new View.OnClickListener() {
