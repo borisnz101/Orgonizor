@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private HashMap<String, Integer> priorite;
     private HashMap<Integer, String> priorities;
     private HashMap<Integer, String> statuses;
+    CheckBox itemAdded;
     StorageUnit fridge = new StorageUnit(1);
     StorageUnit cup = new StorageUnit(2);
     StorageUnit broomC = new StorageUnit(3);
@@ -132,51 +133,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callAddItem(fridGrid);
+                callAddItem(fridGrid, "fridGrid");
             }
         });
 
         findViewById(R.id.button4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callAddItem(cupGrid);
+                callAddItem(cupGrid, "cupGrid");
             }
         });
 
         findViewById(R.id.button9).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callAddItem(broomCGrid);
+                callAddItem(broomCGrid, "broomCGrid");
             }
         });
 
         findViewById(R.id.button12).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callAddItem(materialGrid);
+                callAddItem(materialGrid, "materialGrid");
             }
         });
         findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callAddItem(groceGrid);
+                callAddItem(groceGrid, "groceGrid");
             }
         });
 
-        //addItemToView(fridGrid); // TODO condition if null
-        //addItemToView(cupGrid);
-        //addItemToView(broomCGrid);
-        //addItemToView(materialGrid);
-        //addItemToView(groceGrid);
-
-
-
-        /*findViewById(R.id.TaskTitle).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //callAddTask(true); // Maybe we should use the same with Task argument?
-            }
-        });*/
         findViewById(R.id.Filter).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,6 +183,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 addTaskToView(task, false);
             }
         }
+        List<StoredItem> itemsFridge = db.getStorageUnit(1).getStoredItems();
+        for(StoredItem item : itemsFridge){
+            addItemToView(fridGrid, item, 1);
+        }
+
+        List<StoredItem> itemsCup = db.getStorageUnit(2).getStoredItems();
+        for(StoredItem item : itemsCup){
+            addItemToView(cupGrid, item, 2);
+        }
+
+        List<StoredItem> itemsBroom = db.getStorageUnit(3).getStoredItems();
+        for(StoredItem item : itemsBroom){
+            addItemToView(broomCGrid, item, 3);
+        }
+
+        List<StoredItem> itemsMaterial = db.getStorageUnit(4).getStoredItems();
+        for(StoredItem item : itemsMaterial){
+            addItemToView(materialGrid, item, 4);
+        }
+
+        List<StoredItem> itemsGroce = db.getStorageUnit(5).getStoredItems();
+        for(StoredItem item : itemsGroce){
+            addItemToView(groceGrid, item, 5);
+        }
+
 
         if (!db.usersExist()) {
             callRegisterDialog(true, false);
@@ -226,71 +238,77 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
-    private void addItemToView(GridLayout grid){
-        for (int i=0; i<db.getStorageUnit(0).numberOfStoredItems();i++){ // grids or numbers?
-            CheckBox item = new CheckBox(MainActivity.this);
-            item.setText(db.getStorageUnit(0).getStoredItems().toString()); // TODO change StorageUnit and StoredItem methods
-            item.setChecked(true);
-            if (item.isChecked()) {
-                switch(grid.toString()){
-                    case "fridGrid":
-                        StoredItem fridItem= new StoredItem(item.toString());
-                        db.addItem(fridItem, fridge); // fridge or 1?
-                        db.removeItem(fridItem, groce); //
-                        //fridge.addStoredItem(fridItem); uneeded?
-                    case "cupGrid":
-                        StoredItem cupItem= new StoredItem(item.toString());
-                        db.addItem(cupItem, cup); // cup or 2?
-                        db.removeItem(cupItem, groce); //
-                        //fridge.addStoredItem(cupItem); uneeded?
-                    case "broomCGrid":
-                        StoredItem broomCItem= new StoredItem(item.toString());
-                        db.addItem(broomCItem, broomC); //
-                        db.removeItem(broomCItem, material); //
-                        //fridge.addStoredItem(broomCItem);uneeded?
-                    case "materialGrid":
-                        StoredItem materialItem= new StoredItem(item.toString());
-                        db.addItem(materialItem, material); //
-                        db.removeItem(materialItem, broomC);
-                        //fridge.addStoredItem(materialItem);uneeded?
-                    case "groceGrid":
-                        StoredItem groceItem= new StoredItem(item.toString());
-                        db.addItem(groceItem, groce); //
-                        db.removeItem(groceItem, fridge);
-                        db.removeItem(groceItem, cup);
-                        //fridge.addStoredItem(groceItem);uneeded?
-                }
-            } else {
-                switch(grid.toString()){
-                    case "fridGrid":
-                        StoredItem fridItem= new StoredItem(item.toString());
-                        db.removeItem(fridItem, fridge); // fridge or 1
-                        db.addItem(fridItem, groce);
-                        //fridge.removeStoredItem(itemName); uneeded?
-                    case "cupGrid":
-                        StoredItem cupItem= new StoredItem(item.toString());
-                        db.removeItem(cupItem, cup); //
-                        db.addItem(cupItem, groce);
-                        //fridge.removeStoredItem(itemName); uneeded?
-                    case "broomCGrid":
-                        StoredItem broomItem= new StoredItem(item.toString());
-                        db.removeItem(broomItem, broomC); //
-                        db.addItem(broomItem, material); //
-                        //fridge.removeStoredItem(itemName); uneeded?
-                    case "materialGrid":
-                        StoredItem materialItem= new StoredItem(item.toString());
-                        db.removeItem(materialItem, material); //
-                        db.addItem(materialItem, broomC); //
-                        //fridge.removeStoredItem(itemName); uneeded?
-                    case "groceGrid":
-                        StoredItem groceItem= new StoredItem(item.toString());
-                        db.removeItem(groceItem, groce); //
-                        db.addItem(groceItem, fridge);
-                        db.addItem(groceItem, cup);
-                        //fridge.removeStoredItem(itemName); uneeded?
+    private void addItemToView(final GridLayout grid, final StoredItem item, final int storage){
+        final CheckBox newItem = new CheckBox(MainActivity.this);
+        newItem.setText(item.getName());
+        newItem.setChecked(true);
+        grid.addView(newItem);
+
+        newItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StoredItem fridItem= new StoredItem(item.getName());
+                StoredItem cupItem= new StoredItem(item.getName());
+                StoredItem broomCItem= new StoredItem(item.getName());
+                StoredItem materialItem= new StoredItem(item.getName());
+                StoredItem groceItem= new StoredItem(item.getName());
+                switch(storage){
+                    case 1:
+                        if (newItem.isChecked()) {
+                            db.addItem(fridItem, fridge);
+                            db.removeItem(fridItem, groce);
+                        }
+                        else {
+                            db.removeItem(fridItem, fridge);
+                            db.addItem(fridItem, groce);
+                        }
+                        break;
+                    case 2:
+                        if (newItem.isChecked()) {
+                            db.addItem(cupItem, cup);
+                            db.removeItem(cupItem, groce);
+                        }
+                        else {
+                            db.removeItem(cupItem, cup);
+                            db.addItem(cupItem, groce);
+                        }
+                        break;
+                    case 3:
+                        if (newItem.isChecked()) {
+                            db.addItem(broomCItem, broomC);
+                            db.removeItem(broomCItem, material);
+                        }
+                        else {
+                            db.removeItem(broomCItem, broomC);
+                            db.addItem(broomCItem, material);
+                        }
+                        break;
+                    case 4:
+                        if (newItem.isChecked()) {
+                            db.addItem(materialItem, material);
+                            db.removeItem(materialItem, broomC);
+                        }
+                        else {
+                            db.removeItem(materialItem, material);
+                            db.addItem(materialItem, broomC);
+                        }
+                        break;
+                    case 5:
+                        if (newItem.isChecked()) {
+                            db.addItem(groceItem, groce);
+                            db.removeItem(groceItem, fridge);
+                            db.removeItem(groceItem, cup);
+                        }
+                        else {
+                            db.removeItem(groceItem, groce);
+                            db.addItem(groceItem, fridge);
+                            db.addItem(groceItem, cup);
+                        }
+                        break;
                 }
             }
-        }
+        });
+
     }
 
     private void addTaskToView(Task task, boolean checked){
@@ -626,80 +644,87 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void callAddItem(final GridLayout grid) {
+    private void callAddItem(final GridLayout grid, final String text) {
         myDialog = new Dialog(this);
         myDialog.setContentView(R.layout.additem_popup);
         myDialog.show();
-
         Button ok = (Button) myDialog.findViewById(R.id.buttonOK);
+        itemAdded = new CheckBox(MainActivity.this);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditText editT = (EditText) myDialog.findViewById(R.id.editText);
                 String itemName = editT.getText().toString();
-                CheckBox itemAdded = new CheckBox(MainActivity.this);
-                if (itemAdded.isChecked()) {
-                    switch(grid.toString()){
-                        case "fridGrid":
-                            StoredItem fridItem= new StoredItem(itemName);
-                            // TODO db.addItem(fridItem, fridge); // fridge or 1?
-                            // TODO db.removeItem(fridItem, groce); //
-                            //fridge.addStoredItem(fridItem); uneeded?
-                        case "cupGrid":
-                            StoredItem cupItem= new StoredItem(itemName);
-                            // TODO db.addItem(cupItem, cup); // cup or 2?
-                            // TODO db.removeItem(cupItem, groce); //
-                            //fridge.addStoredItem(cupItem); uneeded?
-                        case "broomCGrid":
-                            StoredItem broomCItem= new StoredItem(itemName);
-                            // TODO db.addItem(broomCItem, broomC); //
-                            // TODO db.removeItem(broomCItem, material); //
-                            //fridge.addStoredItem(broomCItem);uneeded?
-                        case "materialGrid":
-                            StoredItem materialItem= new StoredItem(itemName);
-                            // TODO db.addItem(materialItem, material); //
-                            // TODO db.removeItem(materialItem, broomC);
-                            //fridge.addStoredItem(materialItem);uneeded?
-                        case "groceGrid":
-                            StoredItem groceItem= new StoredItem(itemName);
-                            // TODO db.addItem(groceItem, groce); //
-                            // TODO db.removeItem(groceItem, fridge);
-                            // TODO db.removeItem(groceItem, cup);
-                            //fridge.addStoredItem(groceItem);uneeded?
-                    }
-                }
-                else {
-                    switch(grid.toString()){
-                        case "fridGrid":
-                            // TODO db.removeItem(itemName, fridge); // fridge or 1
-                            // TODO db.addItem(itemName, groce);
-                            //fridge.removeStoredItem(itemName); uneeded?
-                        case "cupGrid":
-                            // TODO db.removeItem(itemName, cup); //
-                            // TODO db.addItem(itemName, groce);
-                            //fridge.removeStoredItem(itemName); uneeded?
-                        case "broomCGrid":
-                            // TODO db.removeItem(itemName, broomC); //
-                            // TODO db.addItem(itemName, material); //
-                            //fridge.removeStoredItem(itemName); uneeded?
-                        case "materialGrid":
-                            // TODO db.removeItem(itemName, material); //
-                            // TODO db.addItem(itemName, broomC); //
-                            //fridge.removeStoredItem(itemName); uneeded?
-                        case "groceGrid":
-                            // TODO db.removeItem(itemName, groce); //
-                            // TODO db.addItem(itemName, fridge);
-                            // TODO db.addItem(itemName, cup);
-                            //fridge.removeStoredItem(itemName); uneeded?
-                    }
-                }
                 itemAdded.setText(itemName);
                 grid.addView(itemAdded);
                 myDialog.dismiss();
             }
         });
+        itemAdded.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StoredItem fridItem= new StoredItem(itemAdded.getText().toString());
+                StoredItem cupItem= new StoredItem(itemAdded.getText().toString());
+                StoredItem broomCItem= new StoredItem(itemAdded.getText().toString());
+                StoredItem materialItem= new StoredItem(itemAdded.getText().toString());
+                StoredItem groceItem= new StoredItem(itemAdded.getText().toString());
+                switch(text){
+                    case "fridGrid":
+                        if (itemAdded.isChecked()) {
+                            db.addItem(fridItem, fridge);
+                            db.removeItem(fridItem, groce);
+                        }
+                        else {
+                            db.removeItem(fridItem, fridge);
+                            db.addItem(fridItem, groce);
+                        }
+                        break;
+                    case "cupGrid":
+                        if (itemAdded.isChecked()) {
+                            db.addItem(cupItem, cup);
+                            db.removeItem(cupItem, groce);
+                        }
+                        else {
+                            db.removeItem(cupItem, cup);
+                            db.addItem(cupItem, groce);
+                        }
+                        break;
+                    case "broomCGrid":
+                        if (itemAdded.isChecked()) {
+                            db.addItem(broomCItem, broomC);
+                            db.removeItem(broomCItem, material);
+                        }
+                        else {
+                            db.removeItem(broomCItem, broomC);
+                            db.addItem(broomCItem, material);
+                        }
+                        break;
+                    case "materialGrid":
+                        if (itemAdded.isChecked()) {
+                            db.addItem(materialItem, material);
+                            db.removeItem(materialItem, broomC);
+                        }
+                        else {
+                            db.removeItem(materialItem, material);
+                            db.addItem(materialItem, broomC);
+                        }
+                        break;
+                    case "groceGrid":
+                        if (itemAdded.isChecked()) {
+                            db.addItem(groceItem, groce);
+                            db.removeItem(groceItem, fridge);
+                            db.removeItem(groceItem, cup);
+                        }
+                        else {
+                            db.removeItem(groceItem, groce);
+                            db.addItem(groceItem, fridge);
+                            db.addItem(groceItem, cup);
+                        }
+                        break;
+                }
+            }
+        });
     }
-
     //Firstuser is used to know if we should bother showing an admin checkbox, if there is no other admins this one must be an admin
     private void callRegisterDialog(final boolean firstUser, boolean cancelable) {
         final EditText user;
