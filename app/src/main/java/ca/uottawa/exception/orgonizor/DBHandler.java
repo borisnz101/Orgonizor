@@ -59,14 +59,6 @@ public class DBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    //getStorage(int id) 1 2 3 4 5
-
-    //switch(String name, int from, int to)
-
-    //add(String, int storage)
-
-    //remove(String, int storage)
-
     public ArrayList<Task> getTasks(){
         ArrayList<Task> tasks = new ArrayList<Task>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -107,7 +99,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     public void removeTask(int id){
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         //get data
         Cursor c = db.rawQuery("UPDATE " + TABLE_TASK + " SET status = 2 WHERE id = " + id , null);
         System.out.println("UPDATE " + TABLE_TASK + " SET status = 2 WHERE id = " + id);
@@ -144,7 +136,35 @@ public class DBHandler extends SQLiteOpenHelper {
 
     //TODO complete
     public StorageUnit getStorageUnit(int id){
-        return null;
+        StorageUnit un = new StorageUnit(id);
+        SQLiteDatabase db = this.getReadableDatabase();
+        //get data
+        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_STORAGE + " WHERE storageid = " + id, null);
+        db.close(); // Closing database connection
+        while(c.moveToNext()){
+            un.addStoredItem(new StoredItem(c.getString(1)));
+        }
+        return un;
+    }
+
+    public void addItem(StoredItem fridItem, StorageUnit unit) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("name", fridItem.getName());
+        values.put("storageid", unit.getStorageID());
+        //values.put("name", name);
+        //values.put("accessLevel", accessLevel);
+        // Inserting Row
+        db.insert(TABLE_TASK, null, values);
+        db.close(); // Closing database connection
+    }
+
+    public void removeItem(StoredItem fridItem, StorageUnit unit) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        //get data
+        Cursor c = db.rawQuery("DELETE FROM " + TABLE_TASK + " WHERE name = " + fridItem.getName() + ", storageid = " + unit.getStorageID() , null);
+        System.out.println("Deleted: " + c.getCount());
+        db.close(); // Closing database connection
     }
 
     public void addUser(String user, String password, String name, int accessLevel) {
@@ -261,4 +281,5 @@ public class DBHandler extends SQLiteOpenHelper {
         SecretKey secretKey = secretKeyFactory.generateSecret(keySpec);
         return secretKey;
     }
+
 }

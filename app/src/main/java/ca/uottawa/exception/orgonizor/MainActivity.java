@@ -237,54 +237,58 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 switch(grid.toString()){
                     case "fridGrid":
                         StoredItem fridItem= new StoredItem(item.toString());
-                        // TODO db.addItem(fridItem, fridge); // fridge or 1?
-                        // TODO db.removeItem(fridItem, groce); //
+                        db.addItem(fridItem, fridge); // fridge or 1?
+                        db.removeItem(fridItem, groce); //
                         //fridge.addStoredItem(fridItem); uneeded?
                     case "cupGrid":
                         StoredItem cupItem= new StoredItem(item.toString());
-                        // TODO db.addItem(cupItem, cup); // cup or 2?
-                        // TODO db.removeItem(cupItem, groce); //
+                        db.addItem(cupItem, cup); // cup or 2?
+                        db.removeItem(cupItem, groce); //
                         //fridge.addStoredItem(cupItem); uneeded?
                     case "broomCGrid":
                         StoredItem broomCItem= new StoredItem(item.toString());
-                        // TODO db.addItem(broomCItem, broomC); //
-                        // TODO db.removeItem(broomCItem, material); //
+                        db.addItem(broomCItem, broomC); //
+                        db.removeItem(broomCItem, material); //
                         //fridge.addStoredItem(broomCItem);uneeded?
                     case "materialGrid":
                         StoredItem materialItem= new StoredItem(item.toString());
-                        // TODO db.addItem(materialItem, material); //
-                        // TODO db.removeItem(materialItem, broomC);
+                        db.addItem(materialItem, material); //
+                        db.removeItem(materialItem, broomC);
                         //fridge.addStoredItem(materialItem);uneeded?
                     case "groceGrid":
                         StoredItem groceItem= new StoredItem(item.toString());
-                        // TODO db.addItem(groceItem, groce); //
-                        // TODO db.removeItem(groceItem, fridge);
-                        // TODO db.removeItem(groceItem, cup);
+                        db.addItem(groceItem, groce); //
+                        db.removeItem(groceItem, fridge);
+                        db.removeItem(groceItem, cup);
                         //fridge.addStoredItem(groceItem);uneeded?
                 }
-            }
-            else {
+            } else {
                 switch(grid.toString()){
                     case "fridGrid":
-                        // TODO db.removeItem(item.toString(), fridge); // fridge or 1
-                        // TODO db.addItem(item.toString(), groce);
+                        StoredItem fridItem= new StoredItem(item.toString());
+                        db.removeItem(fridItem, fridge); // fridge or 1
+                        db.addItem(fridItem, groce);
                         //fridge.removeStoredItem(itemName); uneeded?
                     case "cupGrid":
-                        // TODO db.removeItem(item.toString(), cup); //
-                        // TODO db.addItem(item.toString(), groce);
+                        StoredItem cupItem= new StoredItem(item.toString());
+                        db.removeItem(cupItem, cup); //
+                        db.addItem(cupItem, groce);
                         //fridge.removeStoredItem(itemName); uneeded?
                     case "broomCGrid":
-                        // TODO db.removeItem(item.toString(), broomC); //
-                        // TODO db.addItem(item.toString(), material); //
+                        StoredItem broomItem= new StoredItem(item.toString());
+                        db.removeItem(broomItem, broomC); //
+                        db.addItem(broomItem, material); //
                         //fridge.removeStoredItem(itemName); uneeded?
                     case "materialGrid":
-                        // TODO db.removeItem(item.toString(), material); //
-                        // TODO db.addItem(item.toString(), broomC); //
+                        StoredItem materialItem= new StoredItem(item.toString());
+                        db.removeItem(materialItem, material); //
+                        db.addItem(materialItem, broomC); //
                         //fridge.removeStoredItem(itemName); uneeded?
                     case "groceGrid":
-                        // TODO db.removeItem(item.toString(), groce); //
-                        // TODO db.addItem(item.toString(), fridge);
-                        // TODO db.addItem(item.toString(), cup);
+                        StoredItem groceItem= new StoredItem(item.toString());
+                        db.removeItem(groceItem, groce); //
+                        db.addItem(groceItem, fridge);
+                        db.addItem(groceItem, cup);
                         //fridge.removeStoredItem(itemName); uneeded?
                 }
             }
