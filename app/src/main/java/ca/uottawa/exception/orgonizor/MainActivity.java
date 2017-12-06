@@ -235,6 +235,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
+
+        layout2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                TextView id = (TextView) layout2.findViewById(R.id.taskid);
+                int iden = Integer.parseInt(id.getText().toString());
+                Task task = db.getTask(iden);
+                callViewTask(true, task);
+            }
+        });
         list.addView(layout2);
     }
 
@@ -270,9 +281,53 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    private void callViewTask(boolean cancelable, Task task) {
+        myDialog = new Dialog(this);
+        myDialog.setContentView(R.layout.view_task_popup);
+        myDialog.setCancelable(cancelable);
+
+        EditText taskTitle = myDialog.findViewById(R.id.titlev);
+        taskTitle.setText(task.getTitle());
+        taskTitle.setFocusable(false);
+        EditText taskDescription = myDialog.findViewById(R.id.description);
+        taskDescription.setText(task.getDescription());
+        taskDescription.setFocusable(false);
+        EditText taskDue = myDialog.findViewById(R.id.dueDate);
+        taskDue.setText(task.getDue());
+        taskDue.setFocusable(false);
+        EditText taskDuration = myDialog.findViewById(R.id.duration);
+        taskDuration.setText(task.getDuration());
+        taskDuration.setFocusable(false);
+        EditText taskTools = myDialog.findViewById(R.id.tools);
+        taskTools.setText("");
+        taskTools.setFocusable(false);
+        EditText taskReward = myDialog.findViewById(R.id.reward);
+        taskReward.setText(task.getReward());
+        taskReward.setFocusable(false);
+        EditText taskAssignee = myDialog.findViewById(R.id.assignee);
+        taskAssignee.setText(task.getAssignedTo().getUsername());
+        taskAssignee.setFocusable(false);
+        EditText taskCreator = myDialog.findViewById(R.id.creator);
+        taskCreator.setText(task.getCreator().getUsername());
+        taskCreator.setFocusable(false);
+        EditText taskPriority = myDialog.findViewById(R.id.priority);
+        taskPriority.setText(String.valueOf(task.getPriority()));
+        taskPriority.setFocusable(false);
+
+        Button close = myDialog.findViewById(R.id.close);
+        close.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+            }
+        });
+
+        myDialog.show();
+
+    }
+
     private void callAddTask(boolean cancelable) {
-        final EditText user;
-        final EditText password;
         myDialog = new Dialog(this);
         myDialog.setContentView(R.layout.addtask_popup);
         myDialog.setCancelable(cancelable);
@@ -326,7 +381,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                String myFormat = "MM/dd/yy"; //In which you need put here
+                String myFormat = "yyyy-MM-dd"; //In which you need put here
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
                 due.setText(sdf.format(myCalendar.getTime()));
@@ -483,6 +538,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 //filterTasks(priority.isChecked(), user.isChecked(), duration.isChecked(), date.isChecked(), reward.isChecked(), status.isChecked());
+                filterTasks(assignee.getSelectedItem().toString(), filtere.getSelectedItem().toString());
                 myDialog.dismiss();
             }
         });
@@ -490,13 +546,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void filterTasks(String user, String filter){
         String filterString = "";
-        boolean added = false;
         if(!user.equals("None")){
             User usere = db.getUser(user);
-            filterString += "assignedto = " + usere.getId();
-            added = true;
+            filterString += "WHERE assignedto = " + usere.getId();
         }
 
+        String appended = "";
+        if(filter.equals("Date")){
+            appended = "ORDER BY strftime('%s', due)";
+        }else if(filter.equals("Priority")){
+            appended = "ORDER BY priority desc";
+        }else if(filter.equals("Status")){
+            appended = "ORDER BY status asc";
+        }
+
+        LinearLayout list = (LinearLayout) findViewById(R.id.taskList);
+        if(list.getChildCount() > 0)
+            list.removeAllViews();
+
+        ArrayList<Task> tasks = db.getTasks(filterString + appended);
+
+        for(Task task : tasks){
+            System.out.println("ID: " + task.getId());
+            if(task.getStatus() != Task.Status.COMPLETED.getValue()) {
+                addTaskToView(task);
+            }
+        }
         
     }
 

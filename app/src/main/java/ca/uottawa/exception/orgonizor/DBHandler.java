@@ -80,16 +80,29 @@ public class DBHandler extends SQLiteOpenHelper {
         return tasks;
     }
 
+    public ArrayList<Task> getTasks(String query){
+        ArrayList<Task> tasks = new ArrayList<Task>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        //get data
+        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_TASK + " " + query, null);
+        int dot = c.getCount();
+        db.close(); // Closing database connection
+        while(c.moveToNext()){
+            tasks.add(new Task(getUser(c.getInt(1)), getUser(c.getInt(2)), c.getString(3), c.getString(4), c.getInt(5), getStorageUnit(c.getInt(6)), c.getInt(7), c.getString(8), c.getString(9), c.getInt(0), c.getString(10)));
+        }
+        return tasks;
+    }
+
     public Task getTask(int id){
-        Task task = null;
+        Task task;
         SQLiteDatabase db = this.getReadableDatabase();
         //get data
         Cursor c = db.rawQuery("SELECT * FROM " + TABLE_TASK + " WHERE id = " + id, null);
         int dot = c.getCount();
+        System.out.println("Count: " + dot);
         db.close(); // Closing database connection
-        while(c.moveToNext()){
-            task = new Task(getUser(c.getInt(1)), getUser(c.getInt(2)), c.getString(3), c.getString(4), c.getInt(5), getStorageUnit(c.getInt(6)), c.getInt(7), c.getString(8), c.getString(9), c.getInt(0), c.getString(10));
-        }
+        c.moveToNext();
+        task = new Task(getUser(c.getInt(1)), getUser(c.getInt(2)), c.getString(3), c.getString(4), c.getInt(5), getStorageUnit(c.getInt(6)), c.getInt(7), c.getString(8), c.getString(9), c.getInt(0), c.getString(10));
         return task;
     }
 
@@ -204,6 +217,9 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public User getUser(int id){
         SQLiteDatabase db = this.getReadableDatabase();
+        if(id == -1){
+            return new User(-1, "Unassigned", "Unassigned", false, null);
+        }
         // Inserting Rowx
         Cursor c = db.query(TABLE_USER, new String[]{"username", "name", "accessLevel", KEY_ID}
                 , "id = ?" ,new String[]{id+""}, null, null, null);
