@@ -7,12 +7,9 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:layout_width="368dp"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="0dp"
         android:id="@+id/relativeLayout"
-        android:layout_marginBottom="8dp">
+        android:layout_width="368dp"
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/layout1"
@@ -53,30 +50,27 @@
                 android:layout_height="match_parent"
                 android:text="@string/filter_by"
                 android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                android:textSize="18sp"/>
 
             <Spinner
                 android:id="@+id/selectFilter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@id/layout3"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/FilterButton"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:orientation="horizontal">
+            android:layout_below="@+id/layout2"
+            android:layout_centerHorizontal="true">
 
             <CheckBox
                 android:id="@+id/showCompleted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/layout2"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="0.68"
                 android:text="@string/showcomplete" />
         </LinearLayout>
 
@@ -84,7 +78,7 @@
             android:id="@+id/FilterButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layout2"
+            android:layout_below="@+id/layout3"
             android:layout_centerHorizontal="true"
             android:text="@string/filter"
             tools:layout_editor_absoluteX="148dp"
