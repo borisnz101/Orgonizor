@@ -1,9 +1,5 @@
 package ca.uottawa.exception.orgonizor;
 
-import java.util.*;
-
-// line 2 "model.ump"
-// line 71 "model.ump"
 public class Task {
 
   //------------------------
@@ -45,10 +41,6 @@ public class Task {
   private long id;
   private int reward;
 
-  //Task Associations
-  private List<StoredItem> storedItems;
-  private User user;
-
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -66,7 +58,6 @@ public class Task {
     description = aDescription;
     id = aId;
     reward = aReward;
-    storedItems = new ArrayList<StoredItem>();
   }
 
   //------------------------
@@ -216,81 +207,6 @@ public class Task {
     return reward;
   }
 
-  public int indexOfStoredItem(StoredItem aStoredItem)
-  {
-    int index = storedItems.indexOf(aStoredItem);
-    return index;
-  }
-
-  public User getUser()
-  {
-    return user;
-  }
-
-
-  public boolean addStoredItem(StoredItem aStoredItem)
-  {
-    boolean wasAdded = false;
-    if (storedItems.contains(aStoredItem)) { return false; }
-    storedItems.add(aStoredItem);
-    if (aStoredItem.indexOfTask(this) != -1)
-    {
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = aStoredItem.addTask(this);
-      if (!wasAdded)
-      {
-        storedItems.remove(aStoredItem);
-      }
-    }
-    return wasAdded;
-  }
-
-  public boolean removeStoredItem(StoredItem aStoredItem)
-  {
-    boolean wasRemoved = false;
-    if (!storedItems.contains(aStoredItem))
-    {
-      return wasRemoved;
-    }
-
-    int oldIndex = storedItems.indexOf(aStoredItem);
-    storedItems.remove(oldIndex);
-    if (aStoredItem.indexOfTask(this) == -1)
-    {
-      wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aStoredItem.removeTask(this);
-      if (!wasRemoved)
-      {
-        storedItems.add(oldIndex,aStoredItem);
-      }
-    }
-    return wasRemoved;
-  }
-
-
-  public boolean setUser(User aUser)
-  {
-    boolean wasSet = false;
-    User existingUser = user;
-    user = aUser;
-    if (existingUser != null && !existingUser.equals(aUser))
-    {
-      existingUser.removeTask(this);
-    }
-    if (aUser != null)
-    {
-      aUser.addTask(this);
-    }
-    wasSet = true;
-    return wasSet;
-  }
-
   public String toString()
   {
     return super.toString() + "["+
@@ -304,7 +220,6 @@ public class Task {
             "  " + "creator" + "=" + (getCreator() != null ? !getCreator().equals(this)  ? getCreator().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "priority" + "=" + (getPriority() + System.getProperties().getProperty("line.separator")) +
             "  " + "tools" + "=" + (getTools() != null ? !getTools().equals(this)  ? getTools().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "status" + "=" + (getStatus() + System.getProperties().getProperty("line.separator")) +
-            "  " + "user = "+(getUser()!=null?Integer.toHexString(System.identityHashCode(getUser())):"null");
+            "  " + "status" + "=" + (getStatus() + System.getProperties().getProperty("line.separator"));
   }
 }

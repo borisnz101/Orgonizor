@@ -1,6 +1,8 @@
 package ca.uottawa.exception.orgonizor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class StorageUnit
 {
@@ -10,12 +12,10 @@ public class StorageUnit
     //------------------------
 
     //StorageUnit Attributes
-    private List<LinkedList> storedItem;
     private int storageID;
 
     //StorageUnit Associations
     private List<StoredItem> storedItems;
-    private List<User> users;
 
     //------------------------
     // CONSTRUCTOR
@@ -23,10 +23,8 @@ public class StorageUnit
 
     public StorageUnit(int aStorageID)
     {
-        storedItem = new ArrayList<LinkedList>();
         storageID = aStorageID;
         storedItems = new ArrayList<StoredItem>();
-        users = new ArrayList<User>();
     }
 
     //------------------------
@@ -42,13 +40,6 @@ public class StorageUnit
     {
         List<StoredItem> newStoredItems = Collections.unmodifiableList(storedItems);
         return newStoredItems;
-    }
-
-
-    public int indexOfUser(User aUser)
-    {
-        int index = users.indexOf(aUser);
-        return index;
     }
 
     public boolean addStoredItem(StoredItem aStoredItem)
@@ -80,53 +71,6 @@ public class StorageUnit
         }
         return wasRemoved;
     }
-
-
-    public boolean addUser(User aUser)
-    {
-        boolean wasAdded = false;
-        if (users.contains(aUser)) { return false; }
-        users.add(aUser);
-        if (aUser.indexOfStorageUnit(this) != -1)
-        {
-            wasAdded = true;
-        }
-        else
-        {
-            wasAdded = aUser.addStorageUnit(this);
-            if (!wasAdded)
-            {
-                users.remove(aUser);
-            }
-        }
-        return wasAdded;
-    }
-
-    public boolean removeUser(User aUser)
-    {
-        boolean wasRemoved = false;
-        if (!users.contains(aUser))
-        {
-            return wasRemoved;
-        }
-
-        int oldIndex = users.indexOf(aUser);
-        users.remove(oldIndex);
-        if (aUser.indexOfStorageUnit(this) == -1)
-        {
-            wasRemoved = true;
-        }
-        else
-        {
-            wasRemoved = aUser.removeStorageUnit(this);
-            if (!wasRemoved)
-            {
-                users.add(oldIndex,aUser);
-            }
-        }
-        return wasRemoved;
-    }
-
     public String toString()
     {
         return super.toString() + "["+
